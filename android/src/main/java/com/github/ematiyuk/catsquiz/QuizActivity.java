@@ -4,12 +4,25 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class QuizActivity extends Activity {
 
     private Button mTrueButton;
     private Button mFalseButton;
+    private Button mNextButton;
+    private TextView mQuestionTextView;
+
+    private TrueFalse[] mQuestionBank = new TrueFalse[] {
+            new TrueFalse(R.string.question_whiskers_hunt, true),
+            new TrueFalse(R.string.question_heart_beat, true),
+            new TrueFalse(R.string.question_see_in_darkness, false),
+            new TrueFalse(R.string.question_jump_high, true),
+            new TrueFalse(R.string.question_drink_saltwater, true),
+    };
+
+    private int mCurrentIndex = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
