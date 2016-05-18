@@ -5,4 +5,9 @@
     <string name="next_button">Next</string>
     <string name="correct_toast">Correct!</string>
     <string name="incorrect_toast">Incorrect!</string>
+    <string name="question_whiskers_hunt">A cat\'s whiskers help it hunt at night.</string>
+    <string name="question_heart_beat">When resting, a cat\'s heart beats nearly twice as fast as a human\'s.</string>
+    <string name="question_see_in_darkness">A cat can see in complete darkness.</string>
+    <string name="question_jump_high">A cat can jump up to 5 times its own height.</string>
+    <string name="question_drink_saltwater">Cats can drink saltwater.</string>
 </resources>
