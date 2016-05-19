@@ -29,6 +29,8 @@ public class QuizActivity extends Activity {
     private void updateQuestion() {
         int question = mQuestionBank[mCurrentIndex].getQuestion(); // get question string resID
         mQuestionTextView.setText(question);
+        mPrevButton.setVisibility(View.GONE);
+        mNextButton.setVisibility(View.GONE);
     }
 
     private void checkAnswer(boolean userPressedTrue) {
@@ -39,6 +41,9 @@ public class QuizActivity extends Activity {
         messageResId = (userPressedTrue == answerIsTrue) ? R.string.correct_toast : R.string.incorrect_toast;
 
         Toast.makeText(this, messageResId, Toast.LENGTH_SHORT).show();
+        if (mCurrentIndex > 0)
+            mPrevButton.setVisibility(View.VISIBLE);
+        mNextButton.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -79,6 +84,8 @@ public class QuizActivity extends Activity {
                 updateQuestion();
             }
         });
+        mPrevButton.setVisibility(View.GONE);
+        mNextButton.setVisibility(View.GONE);
 
         updateQuestion();
 
