@@ -70,5 +70,13 @@ public class QuizActivity extends Activity {
         });
 
         updateQuestion();
+
+        mQuestionTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mCurrentIndex = (mCurrentIndex + 1) % mQuestionBank.length;
+                updateQuestion();
+            }
+        });
     }
 }
