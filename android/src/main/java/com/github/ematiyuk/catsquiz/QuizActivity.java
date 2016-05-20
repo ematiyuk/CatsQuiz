@@ -47,8 +47,8 @@ public class QuizActivity extends Activity {
         int answer = mQuestionBank[mCurrentIndex].getAnswer(); // get answer string resID
         Resources res = getResources();
         String extendedAnswer = String.format("<b>%s %s.</b>&nbsp;", res.getString(R.string.answer_is),
-                ((mQuestionBank[mCurrentIndex].isTrueQuestion()) ? res.getString(R.string.true_button)
-                        : res.getString(R.string.false_button)).toUpperCase());
+                (mQuestionBank[mCurrentIndex].isTrueQuestion()) ? res.getString(R.string.true_button)
+                        : res.getString(R.string.false_button));
         extendedAnswer = extendedAnswer + res.getString(answer);
         mAnswerTextView.setText(Html.fromHtml(extendedAnswer));
     }
