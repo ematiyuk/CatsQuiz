@@ -8,6 +8,8 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Locale;
+
 public class QuizActivity extends Activity {
 
     private Button mTrueButton;
@@ -16,6 +18,7 @@ public class QuizActivity extends Activity {
     private ImageButton mNextButton;
     private TextView mQuestionTextView;
     private TextView mAnswerTextView;
+    private TextView mQuestionNumberTextView;
 
     private TrueFalse[] mQuestionBank = new TrueFalse[] {
             new TrueFalse(R.string.question_whiskers_hunt, R.string.answer_whiskers_hunt, true),
@@ -30,6 +33,7 @@ public class QuizActivity extends Activity {
     private void updateQuestion() {
         int question = mQuestionBank[mCurrentIndex].getQuestion(); // get question string resID
         mQuestionTextView.setText(question);
+        mQuestionNumberTextView.setText(String.format(Locale.ENGLISH, "%d/%d", (mCurrentIndex + 1), mQuestionBank.length));
         mPrevButton.setVisibility(View.GONE);
         mNextButton.setVisibility(View.GONE);
         mAnswerTextView.setVisibility(View.GONE);
@@ -62,6 +66,7 @@ public class QuizActivity extends Activity {
 
         mQuestionTextView = (TextView) findViewById(R.id.question_text_view);
         mAnswerTextView = (TextView) findViewById(R.id.answer_text_view);
+        mQuestionNumberTextView = (TextView) findViewById(R.id.question_number_text_view);
 
         mTrueButton = (Button) findViewById(R.id.true_button);
         mTrueButton.setOnClickListener(new View.OnClickListener() {
@@ -107,5 +112,6 @@ public class QuizActivity extends Activity {
                 updateQuestion();
             }
         });
+        mQuestionNumberTextView.setText(String.format(Locale.ENGLISH, "%d/%d", (mCurrentIndex + 1), mQuestionBank.length));
     }
 }
