@@ -15,6 +15,7 @@ public class QuizActivity extends Activity {
     private ImageButton mPrevButton;
     private ImageButton mNextButton;
     private TextView mQuestionTextView;
+    private TextView mAnswerTextView;
 
     private TrueFalse[] mQuestionBank = new TrueFalse[] {
             new TrueFalse(R.string.question_whiskers_hunt, R.string.answer_whiskers_hunt, true),
@@ -31,6 +32,7 @@ public class QuizActivity extends Activity {
         mQuestionTextView.setText(question);
         mPrevButton.setVisibility(View.GONE);
         mNextButton.setVisibility(View.GONE);
+        mAnswerTextView.setVisibility(View.GONE);
         mTrueButton.setVisibility(View.VISIBLE);
         mFalseButton.setVisibility(View.VISIBLE);
     }
@@ -45,6 +47,9 @@ public class QuizActivity extends Activity {
         mTrueButton.setVisibility(View.GONE);
         mFalseButton.setVisibility(View.GONE);
         Toast.makeText(this, messageResId, Toast.LENGTH_SHORT).show();
+        int answer = mQuestionBank[mCurrentIndex].getAnswer(); // get answer string resID
+        mAnswerTextView.setText(answer);
+        mAnswerTextView.setVisibility(View.VISIBLE);
         if (mCurrentIndex > 0)
             mPrevButton.setVisibility(View.VISIBLE);
         mNextButton.setVisibility(View.VISIBLE);
@@ -56,6 +61,7 @@ public class QuizActivity extends Activity {
         setContentView(R.layout.activity_quiz);
 
         mQuestionTextView = (TextView) findViewById(R.id.question_text_view);
+        mAnswerTextView = (TextView) findViewById(R.id.answer_text_view);
 
         mTrueButton = (Button) findViewById(R.id.true_button);
         mTrueButton.setOnClickListener(new View.OnClickListener() {
@@ -90,6 +96,7 @@ public class QuizActivity extends Activity {
         });
         mPrevButton.setVisibility(View.GONE);
         mNextButton.setVisibility(View.GONE);
+        mAnswerTextView.setVisibility(View.GONE);
 
         updateQuestion();
 
