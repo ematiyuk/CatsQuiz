@@ -8,13 +8,18 @@
     <TextView
         android:id="@+id/question_text_view"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="24dp" />
+        android:layout_height="100dp"
+        android:gravity="center_vertical"
+        android:layout_marginTop="170dp"
+        android:padding="24dp"
+        android:layout_marginBottom="50dp" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_weight="2"
+        android:orientation="horizontal"
+        android:layout_gravity="center">
 
         <Button
             android:id="@+id/true_button"
@@ -29,25 +34,27 @@
             android:text="@string/false_button" />
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
+    <FrameLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+        android:layout_weight="0" >
 
         <ImageButton
             android:id="@+id/prev_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@mipmap/ic_arrow_left"
+            android:layout_gravity="left|bottom"
             android:contentDescription="@string/prev_button" />
 
         <ImageButton
             android:id="@+id/next_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="right|bottom"
             android:src="@mipmap/ic_arrow_right"
             android:contentDescription="@string/next_button" />
 
-    </LinearLayout>
+    </FrameLayout>
 
 </LinearLayout>
