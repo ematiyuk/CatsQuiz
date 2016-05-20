@@ -51,7 +51,7 @@
             android:id="@+id/prev_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/ic_arrow_left"
+            android:src="@drawable/ic_arrow_left"
             android:layout_gravity="left|bottom"
             android:contentDescription="@string/prev_button" />
 
@@ -67,7 +67,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right|bottom"
-            android:src="@mipmap/ic_arrow_right"
+            android:src="@drawable/ic_arrow_right"
             android:contentDescription="@string/next_button" />
 
     </FrameLayout>
