@@ -53,6 +53,7 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_arrow_left"
             android:layout_gravity="left|bottom"
+            style="?android:attr/borderlessButtonStyle"
             android:contentDescription="@string/prev_button" />
 
         <TextView
@@ -68,6 +69,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right|bottom"
             android:src="@drawable/ic_arrow_right"
+            style="?android:attr/borderlessButtonStyle"
             android:contentDescription="@string/next_button" />
 
     </FrameLayout>
