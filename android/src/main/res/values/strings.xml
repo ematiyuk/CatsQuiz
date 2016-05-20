@@ -6,9 +6,16 @@
     <string name="prev_button">Prev</string>
     <string name="correct_toast">Correct!</string>
     <string name="incorrect_toast">Incorrect!</string>
+    <!-- Questions -->
     <string name="question_whiskers_hunt">A cat\'s whiskers help it hunt at night.</string>
     <string name="question_heart_beat">When resting, a cat\'s heart beats nearly twice as fast as a human\'s.</string>
     <string name="question_see_in_darkness">A cat can see in complete darkness.</string>
     <string name="question_jump_high">A cat can jump up to 5 times its own height.</string>
     <string name="question_drink_saltwater">Cats can drink saltwater.</string>
+    <!-- Answers -->
+    <string name="answer_whiskers_hunt">A cat\'s whiskers detects movements of air. This allows them to detect anything moving in the dark.</string>
+    <string name="answer_heart_beat">When resting, a cat\'s heart beats at 110 to beats per minute.</string>
+    <string name="answer_see_in_darkness">Even though cats can see in the dark, they cannot see in complete darkness. They need a small source of light in order to see.</string>
+    <string name="answer_jump_high">In one leap, a cat can jump up to 5 times its own height.</string>
+    <string name="answer_drink_saltwater">A cat\'s kidneys can filter sea salt. This allows them to rehydrate by drinking seawater.</string>
 </resources>

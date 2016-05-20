@@ -17,11 +17,11 @@ public class QuizActivity extends Activity {
     private TextView mQuestionTextView;
 
     private TrueFalse[] mQuestionBank = new TrueFalse[] {
-            new TrueFalse(R.string.question_whiskers_hunt, true),
-            new TrueFalse(R.string.question_heart_beat, true),
-            new TrueFalse(R.string.question_see_in_darkness, false),
-            new TrueFalse(R.string.question_jump_high, true),
-            new TrueFalse(R.string.question_drink_saltwater, true),
+            new TrueFalse(R.string.question_whiskers_hunt, R.string.answer_whiskers_hunt, true),
+            new TrueFalse(R.string.question_heart_beat, R.string.answer_heart_beat, true),
+            new TrueFalse(R.string.question_see_in_darkness, R.string.answer_see_in_darkness, false),
+            new TrueFalse(R.string.question_jump_high, R.string.answer_jump_high, true),
+            new TrueFalse(R.string.question_drink_saltwater, R.string.answer_drink_saltwater, true),
     };
 
     private int mCurrentIndex = 0;
