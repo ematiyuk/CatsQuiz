@@ -1,7 +1,9 @@
 package com.github.ematiyuk.catsquiz;
 
 import android.app.Activity;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -41,6 +43,16 @@ public class QuizActivity extends Activity {
         mFalseButton.setVisibility(View.VISIBLE);
     }
 
+    private void updateAnswer() {
+        int answer = mQuestionBank[mCurrentIndex].getAnswer(); // get answer string resID
+        Resources res = getResources();
+        String extendedAnswer = String.format("<b>%s %s.</b>&nbsp;", res.getString(R.string.answer_is),
+                ((mQuestionBank[mCurrentIndex].isTrueQuestion()) ? res.getString(R.string.true_button)
+                        : res.getString(R.string.false_button)).toUpperCase());
+        extendedAnswer = extendedAnswer + res.getString(answer);
+        mAnswerTextView.setText(Html.fromHtml(extendedAnswer));
+    }
+
     private void checkAnswer(boolean userPressedTrue) {
         boolean answerIsTrue = mQuestionBank[mCurrentIndex].isTrueQuestion();
 
@@ -51,8 +63,7 @@ public class QuizActivity extends Activity {
         mTrueButton.setVisibility(View.GONE);
         mFalseButton.setVisibility(View.GONE);
         Toast.makeText(this, messageResId, Toast.LENGTH_SHORT).show();
-        int answer = mQuestionBank[mCurrentIndex].getAnswer(); // get answer string resID
-        mAnswerTextView.setText(answer);
+        updateAnswer();
         mAnswerTextView.setVisibility(View.VISIBLE);
         if (mCurrentIndex > 0)
             mPrevButton.setVisibility(View.VISIBLE);
