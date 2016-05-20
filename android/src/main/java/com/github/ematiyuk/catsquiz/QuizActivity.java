@@ -31,6 +31,8 @@ public class QuizActivity extends Activity {
         mQuestionTextView.setText(question);
         mPrevButton.setVisibility(View.GONE);
         mNextButton.setVisibility(View.GONE);
+        mTrueButton.setVisibility(View.VISIBLE);
+        mFalseButton.setVisibility(View.VISIBLE);
     }
 
     private void checkAnswer(boolean userPressedTrue) {
@@ -40,6 +42,8 @@ public class QuizActivity extends Activity {
 
         messageResId = (userPressedTrue == answerIsTrue) ? R.string.correct_toast : R.string.incorrect_toast;
 
+        mTrueButton.setVisibility(View.GONE);
+        mFalseButton.setVisibility(View.GONE);
         Toast.makeText(this, messageResId, Toast.LENGTH_SHORT).show();
         if (mCurrentIndex > 0)
             mPrevButton.setVisibility(View.VISIBLE);
