@@ -8,9 +8,7 @@
 
     <TextView
         android:id="@+id/question_text_view"
-        style="@style/QuestionTextView"
-        android:text="@string/question_whiskers_hunt" />
-
+        style="@style/QuestionTextView" />
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -39,7 +37,6 @@
 
     <TextView
         android:id="@+id/answer_text_view"
-        android:text="@string/answer_whiskers_hunt"
         style="@style/AnswerTextView" />
 
     <FrameLayout
@@ -61,7 +58,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center|bottom"
-            android:layout_marginBottom="20dp" />
+            android:layout_marginBottom="15dp" />
 
         <ImageButton
             android:id="@+id/next_button"
