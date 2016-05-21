@@ -60,6 +60,8 @@ public class QuizActivity extends Activity {
 
     private int mCurrentIndex = 0;
     private boolean mQuestionMode = true; // defines either Question or Answer mode
+    private static final String KEY_INDEX = "index";
+    private static final String KEY_MODE = "mode";
 
     private void updateQuestion() {
         int question = mQuestionBank[mCurrentIndex].getQuestion(); // get question string resID
@@ -94,6 +96,12 @@ public class QuizActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz);
+
+        if (savedInstanceState != null) {
+            /* get data from Bundle */
+            mCurrentIndex = savedInstanceState.getInt(KEY_INDEX, 0);
+            mQuestionMode = savedInstanceState.getBoolean(KEY_MODE, true);
+        }
 
         mQuestionTextView = (TextView) findViewById(R.id.question_text_view);
         mAnswerTextView = (TextView) findViewById(R.id.answer_text_view);
@@ -150,6 +158,14 @@ public class QuizActivity extends Activity {
         mQuestionNumberTextView.setText(String.format(Locale.ENGLISH, "%d/%d", (mCurrentIndex + 1), mQuestionBank.length));
         updateQuestion();
         updateAnswer();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        /* put data to Bundle */
+        outState.putInt(KEY_INDEX, mCurrentIndex);
+        outState.putBoolean(KEY_MODE, mQuestionMode);
     }
 
     private void updateWidgetsVisibility() {
