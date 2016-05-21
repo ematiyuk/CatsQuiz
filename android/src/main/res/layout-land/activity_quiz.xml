@@ -18,7 +18,7 @@
 
         <Button
             android:id="@+id/true_button"
-            android:layout_width="100dp"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:background="@android:color/holo_orange_light"
             android:textStyle="bold"
@@ -27,7 +27,7 @@
 
         <Button
             android:id="@+id/false_button"
-            android:layout_width="100dp"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:background="@android:color/holo_orange_light"
             android:textStyle="bold"

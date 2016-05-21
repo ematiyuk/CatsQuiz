@@ -1,2 +1,2 @@
-# catsquiz
-Tests the user's knowledge about cats
+# CatsQuiz
+Tests the user's knowledge about cats :)
