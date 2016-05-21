@@ -59,16 +59,13 @@ public class QuizActivity extends Activity {
     };
 
     private int mCurrentIndex = 0;
+    private boolean mQuestionMode = true; // defines either Question or Answer mode
 
     private void updateQuestion() {
         int question = mQuestionBank[mCurrentIndex].getQuestion(); // get question string resID
         mQuestionTextView.setText(question);
         mQuestionNumberTextView.setText(String.format(Locale.ENGLISH, "%d/%d", (mCurrentIndex + 1), mQuestionBank.length));
-        mPrevButton.setVisibility(View.GONE);
-        mNextButton.setVisibility(View.GONE);
-        mAnswerTextView.setVisibility(View.GONE);
-        mTrueButton.setVisibility(View.VISIBLE);
-        mFalseButton.setVisibility(View.VISIBLE);
+        updateWidgetsVisibility();
     }
 
     private void updateAnswer() {
@@ -84,18 +81,13 @@ public class QuizActivity extends Activity {
     private void checkAnswer(boolean userPressedTrue) {
         boolean answerIsTrue = mQuestionBank[mCurrentIndex].isTrueQuestion();
 
-        int messageResId = 0;
+        int messageResId;
 
         messageResId = (userPressedTrue == answerIsTrue) ? R.string.correct_toast : R.string.incorrect_toast;
 
-        mTrueButton.setVisibility(View.GONE);
-        mFalseButton.setVisibility(View.GONE);
         Toast.makeText(this, messageResId, Toast.LENGTH_SHORT).show();
         updateAnswer();
-        mAnswerTextView.setVisibility(View.VISIBLE);
-        if (mCurrentIndex > 0)
-            mPrevButton.setVisibility(View.VISIBLE);
-        mNextButton.setVisibility(View.VISIBLE);
+        updateWidgetsVisibility();
     }
 
     @Override
@@ -106,51 +98,74 @@ public class QuizActivity extends Activity {
         mQuestionTextView = (TextView) findViewById(R.id.question_text_view);
         mAnswerTextView = (TextView) findViewById(R.id.answer_text_view);
         mQuestionNumberTextView = (TextView) findViewById(R.id.question_number_text_view);
-
         mTrueButton = (Button) findViewById(R.id.true_button);
+        mFalseButton = (Button) findViewById(R.id.false_button);
+        mPrevButton = (ImageButton) findViewById(R.id.prev_button);
+        mNextButton = (ImageButton) findViewById(R.id.next_button);
+
         mTrueButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mQuestionMode = false;
                 checkAnswer(true);
             }
         });
-        mFalseButton = (Button) findViewById(R.id.false_button);
+
         mFalseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mQuestionMode = false;
                 checkAnswer(false);
             }
         });
-        mPrevButton = (ImageButton) findViewById(R.id.prev_button);
+
         mPrevButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mCurrentIndex = ((mCurrentIndex - 1) % mQuestionBank.length < 0) ? 0
                         : (mCurrentIndex - 1) % mQuestionBank.length;
+                mQuestionMode = true;
                 updateQuestion();
             }
         });
-        mNextButton = (ImageButton) findViewById(R.id.next_button);
+
         mNextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mCurrentIndex = (mCurrentIndex + 1) % mQuestionBank.length;
+                mQuestionMode = true;
                 updateQuestion();
             }
         });
-        mPrevButton.setVisibility(View.GONE);
-        mNextButton.setVisibility(View.GONE);
-        mAnswerTextView.setVisibility(View.GONE);
-
-        updateQuestion();
 
         mQuestionTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mCurrentIndex = (mCurrentIndex + 1) % mQuestionBank.length;
+                mQuestionMode = true;
                 updateQuestion();
             }
         });
+
         mQuestionNumberTextView.setText(String.format(Locale.ENGLISH, "%d/%d", (mCurrentIndex + 1), mQuestionBank.length));
+        updateQuestion();
+        updateAnswer();
+    }
+
+    private void updateWidgetsVisibility() {
+        if (mQuestionMode) {
+            mPrevButton.setVisibility(View.GONE);
+            mNextButton.setVisibility(View.GONE);
+            mAnswerTextView.setVisibility(View.GONE);
+            mTrueButton.setVisibility(View.VISIBLE);
+            mFalseButton.setVisibility(View.VISIBLE);
+        } else {
+            mTrueButton.setVisibility(View.GONE);
+            mFalseButton.setVisibility(View.GONE);
+            mAnswerTextView.setVisibility(View.VISIBLE);
+            if (mCurrentIndex > 0)
+                mPrevButton.setVisibility(View.VISIBLE);
+            mNextButton.setVisibility(View.VISIBLE);
+        }
     }
 }
