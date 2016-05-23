@@ -64,6 +64,7 @@ public class QuizActivity extends Activity {
     private boolean mQuestionMode = true; // defines either Question or Answer mode
     private static final String KEY_INDEX = "index";
     private static final String KEY_MODE = "mode";
+    private boolean mIsCheater;
 
     private void updateQuestion() {
         int question = mQuestionBank[mCurrentIndex].getQuestion(); // get question string resID
@@ -179,6 +180,13 @@ public class QuizActivity extends Activity {
         /* put data to Bundle */
         outState.putInt(KEY_INDEX, mCurrentIndex);
         outState.putBoolean(KEY_MODE, mQuestionMode);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (data == null)
+            return;
+        mIsCheater = data.getBooleanExtra(CheatActivity.EXTRA_ANSWER_SHOWN, false);
     }
 
     private void updateWidgetsVisibility() {
