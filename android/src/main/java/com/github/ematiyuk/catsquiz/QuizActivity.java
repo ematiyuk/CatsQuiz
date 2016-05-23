@@ -204,9 +204,11 @@ public class QuizActivity extends Activity {
             mAnswerTextView.setVisibility(View.GONE);
             mTrueButton.setVisibility(View.VISIBLE);
             mFalseButton.setVisibility(View.VISIBLE);
+            mCheatButton.setVisibility(View.VISIBLE);
         } else {
             mTrueButton.setVisibility(View.GONE);
             mFalseButton.setVisibility(View.GONE);
+            mCheatButton.setVisibility(View.GONE);
             mAnswerTextView.setVisibility(View.VISIBLE);
             if (mCurrentIndex > 0)
                 mPrevButton.setVisibility(View.VISIBLE);
