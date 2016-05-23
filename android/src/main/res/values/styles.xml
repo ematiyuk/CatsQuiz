@@ -12,9 +12,9 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">160dp</item>
         <item name="android:gravity">center_vertical</item>
-        <item name="android:layout_marginTop">80dp</item>
+        <item name="android:layout_marginTop">50dp</item>
         <item name="android:padding">24dp</item>
-        <item name="android:layout_marginBottom">50dp</item>
+        <item name="android:layout_marginBottom">20dp</item>
         <item name="android:textSize">20sp</item>
         <item name="android:textColor">#f55c5c5c</item>
     </style>
