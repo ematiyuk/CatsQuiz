@@ -18,6 +18,7 @@ public class QuizActivity extends Activity {
     private Button mFalseButton;
     private ImageButton mPrevButton;
     private ImageButton mNextButton;
+    private Button mCheatButton;
     private TextView mQuestionTextView;
     private TextView mAnswerTextView;
     private TextView mQuestionNumberTextView;
@@ -110,6 +111,7 @@ public class QuizActivity extends Activity {
         mFalseButton = (Button) findViewById(R.id.false_button);
         mPrevButton = (ImageButton) findViewById(R.id.prev_button);
         mNextButton = (ImageButton) findViewById(R.id.next_button);
+        mCheatButton = (Button) findViewById(R.id.cheat_button);
 
         mTrueButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -152,6 +154,13 @@ public class QuizActivity extends Activity {
                 mCurrentIndex = (mCurrentIndex + 1) % mQuestionBank.length;
                 mQuestionMode = true;
                 updateQuestion();
+            }
+        });
+
+        mCheatButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // CheatActivity launch
             }
         });
 
