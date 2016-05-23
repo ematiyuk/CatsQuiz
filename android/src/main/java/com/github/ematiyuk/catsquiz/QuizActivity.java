@@ -88,7 +88,11 @@ public class QuizActivity extends Activity {
 
         int messageResId;
 
-        messageResId = (userPressedTrue == answerIsTrue) ? R.string.correct_toast : R.string.incorrect_toast;
+        if (mIsCheater)
+            messageResId = R.string.judgment_toast;
+        else
+            messageResId = (userPressedTrue == answerIsTrue) ? R.string.correct_toast
+                    : R.string.incorrect_toast;
 
         Toast.makeText(this, messageResId, Toast.LENGTH_SHORT).show();
         updateAnswer();
@@ -137,6 +141,7 @@ public class QuizActivity extends Activity {
                 mCurrentIndex = ((mCurrentIndex - 1) % mQuestionBank.length < 0) ? 0
                         : (mCurrentIndex - 1) % mQuestionBank.length;
                 mQuestionMode = true;
+                mIsCheater = false;
                 updateQuestion();
             }
         });
@@ -146,6 +151,7 @@ public class QuizActivity extends Activity {
             public void onClick(View view) {
                 mCurrentIndex = (mCurrentIndex + 1) % mQuestionBank.length;
                 mQuestionMode = true;
+                mIsCheater = false;
                 updateQuestion();
             }
         });
@@ -155,6 +161,7 @@ public class QuizActivity extends Activity {
             public void onClick(View view) {
                 mCurrentIndex = (mCurrentIndex + 1) % mQuestionBank.length;
                 mQuestionMode = true;
+                mIsCheater = false;
                 updateQuestion();
             }
         });
@@ -170,6 +177,7 @@ public class QuizActivity extends Activity {
         });
 
         mQuestionNumberTextView.setText(String.format(Locale.ENGLISH, "%d/%d", (mCurrentIndex + 1), mQuestionBank.length));
+        mIsCheater = false;
         updateQuestion();
         updateAnswer();
     }
