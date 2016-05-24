@@ -35,6 +35,16 @@
             android:text="@string/false_button" />
     </LinearLayout>
 
+    <Button
+        android:id="@+id/cheat_button"
+        android:layout_width="100dp"
+        android:layout_height="30dp"
+        android:text="@string/cheat_button"
+        android:background="@android:color/holo_orange_light"
+        android:textStyle="bold"
+        android:textSize="15sp"
+        android:textColor="#007ab2" />
+
     <TextView
         android:id="@+id/answer_text_view"
         style="@style/AnswerTextView" />

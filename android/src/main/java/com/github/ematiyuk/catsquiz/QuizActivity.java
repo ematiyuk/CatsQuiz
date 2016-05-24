@@ -1,6 +1,7 @@
 package com.github.ematiyuk.catsquiz;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.text.Html;
@@ -18,6 +19,7 @@ public class QuizActivity extends Activity {
     private Button mFalseButton;
     private ImageButton mPrevButton;
     private ImageButton mNextButton;
+    private Button mCheatButton;
     private TextView mQuestionTextView;
     private TextView mAnswerTextView;
     private TextView mQuestionNumberTextView;
@@ -58,10 +60,19 @@ public class QuizActivity extends Activity {
             new TrueFalse(R.string.question_collarbones, R.string.answer_collarbones, true),
     };
 
+    /** contains flags for each question that defines cheat usage by user */
+    private boolean[] mCheatedQuestionBank = new boolean[mQuestionBank.length];
+
     private int mCurrentIndex = 0;
-    private boolean mQuestionMode = true; // defines either Question or Answer mode
+    /** defines either Question or Answer mode*/
+    private boolean mQuestionMode = true;
+    /** defines whether user used cheat at CheatActivity for current question or not */
+    private boolean mIsCheater;
     private static final String KEY_INDEX = "index";
     private static final String KEY_MODE = "mode";
+    private static final String KEY_IS_CHEATER = "isCheater";
+    private static final String KEY_CHEATED_Q_BANK = "cheatedQuestionBank";
+
 
     private void updateQuestion() {
         int question = mQuestionBank[mCurrentIndex].getQuestion(); // get question string resID
@@ -71,13 +82,19 @@ public class QuizActivity extends Activity {
     }
 
     private void updateAnswer() {
-        int answer = mQuestionBank[mCurrentIndex].getAnswer(); // get answer string resID
         Resources res = getResources();
-        String extendedAnswer = String.format("<b>%s %s.</b>&nbsp;", res.getString(R.string.answer_is),
-                (mQuestionBank[mCurrentIndex].isTrueQuestion()) ? res.getString(R.string.true_button)
-                        : res.getString(R.string.false_button));
-        extendedAnswer = extendedAnswer + res.getString(answer);
-        mAnswerTextView.setText(Html.fromHtml(extendedAnswer));
+        if (mCheatedQuestionBank[mCurrentIndex]) {
+            String answerStr = String.format("<b><font color=red>%s</font></b>", res.getString(R.string.judgment_toast));
+            mAnswerTextView.setText(Html.fromHtml(answerStr));
+        }
+        else {
+            int answer = mQuestionBank[mCurrentIndex].getAnswer(); // get answer string resID
+            String extendedAnswer = String.format("<b>%s %s.</b>&nbsp;", res.getString(R.string.answer_is),
+                    (mQuestionBank[mCurrentIndex].isTrueQuestion()) ? res.getString(R.string.true_button)
+                            : res.getString(R.string.false_button));
+            extendedAnswer = extendedAnswer + res.getString(answer);
+            mAnswerTextView.setText(Html.fromHtml(extendedAnswer));
+        }
     }
 
     private void checkAnswer(boolean userPressedTrue) {
@@ -85,7 +102,11 @@ public class QuizActivity extends Activity {
 
         int messageResId;
 
-        messageResId = (userPressedTrue == answerIsTrue) ? R.string.correct_toast : R.string.incorrect_toast;
+        if (mCheatedQuestionBank[mCurrentIndex])
+            messageResId = R.string.judgment_toast;
+        else
+            messageResId = (userPressedTrue == answerIsTrue) ? R.string.correct_toast
+                    : R.string.incorrect_toast;
 
         Toast.makeText(this, messageResId, Toast.LENGTH_SHORT).show();
         updateAnswer();
@@ -101,6 +122,8 @@ public class QuizActivity extends Activity {
             /* get data from Bundle */
             mCurrentIndex = savedInstanceState.getInt(KEY_INDEX, 0);
             mQuestionMode = savedInstanceState.getBoolean(KEY_MODE, true);
+            mIsCheater = savedInstanceState.getBoolean(KEY_IS_CHEATER, false);
+            mCheatedQuestionBank = savedInstanceState.getBooleanArray(KEY_CHEATED_Q_BANK).clone();
         }
 
         mQuestionTextView = (TextView) findViewById(R.id.question_text_view);
@@ -110,10 +133,14 @@ public class QuizActivity extends Activity {
         mFalseButton = (Button) findViewById(R.id.false_button);
         mPrevButton = (ImageButton) findViewById(R.id.prev_button);
         mNextButton = (ImageButton) findViewById(R.id.next_button);
+        mCheatButton = (Button) findViewById(R.id.cheat_button);
 
         mTrueButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (!mCheatedQuestionBank[mCurrentIndex]) // if current question is not cheated,
+                    // in other words mCheatedQuestionBank[mCurrentIndex] == false
+                    mCheatedQuestionBank[mCurrentIndex] = mIsCheater; // set current question mIsCheater value
                 mQuestionMode = false;
                 checkAnswer(true);
             }
@@ -122,6 +149,8 @@ public class QuizActivity extends Activity {
         mFalseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (!mCheatedQuestionBank[mCurrentIndex])
+                    mCheatedQuestionBank[mCurrentIndex] = mIsCheater;
                 mQuestionMode = false;
                 checkAnswer(false);
             }
@@ -133,6 +162,7 @@ public class QuizActivity extends Activity {
                 mCurrentIndex = ((mCurrentIndex - 1) % mQuestionBank.length < 0) ? 0
                         : (mCurrentIndex - 1) % mQuestionBank.length;
                 mQuestionMode = true;
+                mIsCheater = false;
                 updateQuestion();
             }
         });
@@ -142,6 +172,7 @@ public class QuizActivity extends Activity {
             public void onClick(View view) {
                 mCurrentIndex = (mCurrentIndex + 1) % mQuestionBank.length;
                 mQuestionMode = true;
+                mIsCheater = false;
                 updateQuestion();
             }
         });
@@ -151,7 +182,18 @@ public class QuizActivity extends Activity {
             public void onClick(View view) {
                 mCurrentIndex = (mCurrentIndex + 1) % mQuestionBank.length;
                 mQuestionMode = true;
+                mIsCheater = false;
                 updateQuestion();
+            }
+        });
+
+        mCheatButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(QuizActivity.this, CheatActivity.class);
+                boolean answerIsTrue = mQuestionBank[mCurrentIndex].isTrueQuestion();
+                intent.putExtra(CheatActivity.EXTRA_ANSWER_IS_TRUE, answerIsTrue);
+                startActivityForResult(intent, 0);
             }
         });
 
@@ -166,6 +208,15 @@ public class QuizActivity extends Activity {
         /* put data to Bundle */
         outState.putInt(KEY_INDEX, mCurrentIndex);
         outState.putBoolean(KEY_MODE, mQuestionMode);
+        outState.putBoolean(KEY_IS_CHEATER, mIsCheater);
+        outState.putBooleanArray(KEY_CHEATED_Q_BANK, mCheatedQuestionBank);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (data == null)
+            return;
+        mIsCheater = data.getBooleanExtra(CheatActivity.EXTRA_ANSWER_SHOWN, false);
     }
 
     private void updateWidgetsVisibility() {
@@ -175,9 +226,11 @@ public class QuizActivity extends Activity {
             mAnswerTextView.setVisibility(View.GONE);
             mTrueButton.setVisibility(View.VISIBLE);
             mFalseButton.setVisibility(View.VISIBLE);
+            mCheatButton.setVisibility(View.VISIBLE);
         } else {
             mTrueButton.setVisibility(View.GONE);
             mFalseButton.setVisibility(View.GONE);
+            mCheatButton.setVisibility(View.GONE);
             mAnswerTextView.setVisibility(View.VISIBLE);
             if (mCurrentIndex > 0)
                 mPrevButton.setVisibility(View.VISIBLE);
