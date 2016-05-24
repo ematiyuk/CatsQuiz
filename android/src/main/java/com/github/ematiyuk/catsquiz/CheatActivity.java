@@ -2,7 +2,9 @@ package com.github.ematiyuk.catsquiz;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -24,6 +26,16 @@ public class CheatActivity extends Activity {
         setResult(RESULT_OK, data);
     }
 
+    private void updateAnswer() {
+        if (mAnswerIsShown) {
+            Resources res = getResources();
+            String answer = String.format("<b><font color=navy>%s %s.</font></b>", res.getString(R.string.answer_is),
+                    (mAnswerIsTrue) ? res.getString(R.string.true_button)
+                            : res.getString(R.string.false_button));
+            mAnswerTextView.setText(Html.fromHtml(answer));
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,10 +51,7 @@ public class CheatActivity extends Activity {
             public void onClick(View view) {
                 mAnswerIsShown = true;
                 updateWidgetsVisibility();
-                if (mAnswerIsTrue)
-                    mAnswerTextView.setText(R.string.true_button);
-                else
-                    mAnswerTextView.setText(R.string.false_button);
+                updateAnswer();
                 setAnswerShownResult();
             }
         });
