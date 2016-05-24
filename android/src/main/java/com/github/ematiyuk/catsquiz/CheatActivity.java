@@ -13,6 +13,7 @@ public class CheatActivity extends Activity {
 
     public static final String EXTRA_ANSWER_IS_TRUE = "com.github.ematiyuk.catsquiz.answer_is_true";
     public static final String EXTRA_ANSWER_SHOWN = "com.github.ematiyuk.catsquiz.answer_shown";
+    private static final String KEY_ANSWER_SHOWN = "answerShown";
 
     private TextView mAnswerTextView;
     private Button mShowAnswer;
@@ -34,12 +35,18 @@ public class CheatActivity extends Activity {
                             : res.getString(R.string.false_button));
             mAnswerTextView.setText(Html.fromHtml(answer));
         }
+        updateWidgetsVisibility();
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cheat);
+
+        if (savedInstanceState != null) {
+            /* get data from Bundle */
+            mAnswerIsShown = savedInstanceState.getBoolean(KEY_ANSWER_SHOWN);
+        }
 
         mAnswerIsTrue = getIntent().getBooleanExtra(EXTRA_ANSWER_IS_TRUE, false);
 
@@ -49,15 +56,21 @@ public class CheatActivity extends Activity {
         mShowAnswer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mAnswerIsShown = true;
-                updateWidgetsVisibility();
+                mAnswerIsShown = true; // a user used cheat
                 updateAnswer();
                 setAnswerShownResult();
             }
         });
-
+        updateAnswer();
         // answer will not be shown until the user presses the button
         setAnswerShownResult();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        /* put data to Bundle */
+        outState.putBoolean(KEY_ANSWER_SHOWN, mAnswerIsShown);
     }
 
     private void updateWidgetsVisibility() {
