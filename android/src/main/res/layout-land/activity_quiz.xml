@@ -42,7 +42,8 @@
         android:text="@string/cheat_button"
         android:background="@android:color/holo_orange_light"
         android:textStyle="bold"
-        android:textColor="#00a2ec" />
+        android:textSize="15sp"
+        android:textColor="#007ab2" />
 
     <TextView
         android:id="@+id/answer_text_view"
