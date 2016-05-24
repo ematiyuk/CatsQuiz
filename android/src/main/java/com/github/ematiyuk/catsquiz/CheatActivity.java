@@ -16,10 +16,11 @@ public class CheatActivity extends Activity {
     private Button mShowAnswer;
 
     private boolean mAnswerIsTrue;
+    private boolean mAnswerIsShown;
 
-    private void setAnswerShownResult(boolean isAnswerShown) {
+    private void setAnswerShownResult() {
         Intent data = new Intent();
-        data.putExtra(EXTRA_ANSWER_SHOWN, isAnswerShown);
+        data.putExtra(EXTRA_ANSWER_SHOWN, mAnswerIsShown);
         setResult(RESULT_OK, data);
     }
 
@@ -36,15 +37,27 @@ public class CheatActivity extends Activity {
         mShowAnswer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mAnswerIsShown = true;
+                updateWidgetsVisibility();
                 if (mAnswerIsTrue)
                     mAnswerTextView.setText(R.string.true_button);
                 else
                     mAnswerTextView.setText(R.string.false_button);
-                setAnswerShownResult(true); 
+                setAnswerShownResult();
             }
         });
 
         // answer will not be shown until the user presses the button
-        setAnswerShownResult(false);
+        setAnswerShownResult();
+    }
+
+    private void updateWidgetsVisibility() {
+        if (mAnswerIsShown) {
+            mShowAnswer.setVisibility(View.GONE);
+            mAnswerTextView.setVisibility(View.VISIBLE);
+        } else {
+            mShowAnswer.setVisibility(View.VISIBLE);
+            mAnswerTextView.setVisibility(View.GONE);
+        }
     }
 }
