@@ -60,6 +60,8 @@ public class QuizActivity extends Activity {
             new TrueFalse(R.string.question_collarbones, R.string.answer_collarbones, true),
     };
 
+    private boolean[] mCheatedQuestionBank = new boolean[mQuestionBank.length];
+
     private int mCurrentIndex = 0;
     private boolean mQuestionMode = true; // defines either Question or Answer mode
     private boolean mIsCheater;
@@ -77,7 +79,7 @@ public class QuizActivity extends Activity {
 
     private void updateAnswer() {
         Resources res = getResources();
-        if (mIsCheater) {
+        if (mCheatedQuestionBank[mCurrentIndex]) {
             String answerStr = String.format("<b><font color=red>%s</font></b>", res.getString(R.string.judgment_toast));
             mAnswerTextView.setText(Html.fromHtml(answerStr));
         }
@@ -96,7 +98,7 @@ public class QuizActivity extends Activity {
 
         int messageResId;
 
-        if (mIsCheater)
+        if (mCheatedQuestionBank[mCurrentIndex])
             messageResId = R.string.judgment_toast;
         else
             messageResId = (userPressedTrue == answerIsTrue) ? R.string.correct_toast
@@ -131,6 +133,9 @@ public class QuizActivity extends Activity {
         mTrueButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (!mCheatedQuestionBank[mCurrentIndex]) // if current question is not cheated,
+                    // in other words mCheatedQuestionBank[mCurrentIndex] == false
+                    mCheatedQuestionBank[mCurrentIndex] = mIsCheater; // set current question mIsCheater value
                 mQuestionMode = false;
                 checkAnswer(true);
             }
@@ -139,6 +144,8 @@ public class QuizActivity extends Activity {
         mFalseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (!mCheatedQuestionBank[mCurrentIndex])
+                    mCheatedQuestionBank[mCurrentIndex] = mIsCheater;
                 mQuestionMode = false;
                 checkAnswer(false);
             }
