@@ -60,14 +60,18 @@ public class QuizActivity extends Activity {
             new TrueFalse(R.string.question_collarbones, R.string.answer_collarbones, true),
     };
 
+    /** contains flags for each question that defines cheat usage by user */
     private boolean[] mCheatedQuestionBank = new boolean[mQuestionBank.length];
 
     private int mCurrentIndex = 0;
-    private boolean mQuestionMode = true; // defines either Question or Answer mode
+    /** defines either Question or Answer mode*/
+    private boolean mQuestionMode = true;
+    /** defines whether user used cheat at CheatActivity for current question or not */
     private boolean mIsCheater;
     private static final String KEY_INDEX = "index";
     private static final String KEY_MODE = "mode";
     private static final String KEY_IS_CHEATER = "isCheater";
+    private static final String KEY_CHEATED_Q_BANK = "cheatedQuestionBank";
 
 
     private void updateQuestion() {
@@ -119,6 +123,7 @@ public class QuizActivity extends Activity {
             mCurrentIndex = savedInstanceState.getInt(KEY_INDEX, 0);
             mQuestionMode = savedInstanceState.getBoolean(KEY_MODE, true);
             mIsCheater = savedInstanceState.getBoolean(KEY_IS_CHEATER, false);
+            mCheatedQuestionBank = savedInstanceState.getBooleanArray(KEY_CHEATED_Q_BANK).clone();
         }
 
         mQuestionTextView = (TextView) findViewById(R.id.question_text_view);
@@ -204,6 +209,7 @@ public class QuizActivity extends Activity {
         outState.putInt(KEY_INDEX, mCurrentIndex);
         outState.putBoolean(KEY_MODE, mQuestionMode);
         outState.putBoolean(KEY_IS_CHEATER, mIsCheater);
+        outState.putBooleanArray(KEY_CHEATED_Q_BANK, mCheatedQuestionBank);
     }
 
     @Override
