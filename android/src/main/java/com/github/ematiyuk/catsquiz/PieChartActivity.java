@@ -5,6 +5,9 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.Entry;
@@ -23,6 +26,8 @@ public class PieChartActivity extends Activity {
     private int mIncorrectAnswersNumber = 0;
     private int mCheatedAnswersNumber = 0;
 
+    Resources res;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +40,7 @@ public class PieChartActivity extends Activity {
         mCheatedAnswersNumber = getCheatedAnswersNumber(
                 getIntent().getBooleanArrayExtra(EXTRA_CHEATED_ANSWERS_BANK));
 
-        Resources res = getResources();
+        res = getResources();
 
         // "0 + color resource ID" makes it possible to get String value of the specified color
         String backgroundColorStr = res.getString(0 + R.color.colorBackground);
@@ -73,7 +78,8 @@ public class PieChartActivity extends Activity {
 
         pieChart.setCenterTextTypeface(Typeface.createFromAsset(getAssets(), "OpenSans-Light.ttf"));
         pieChart.setCenterTextSize(20f);
-        
+        pieChart.setCenterText(generateCenterSpannableText());
+
         pieChart.setTransparentCircleRadius(55f);
         pieChart.setTransparentCircleColor(Color.parseColor(backgroundColorStr));
         pieChart.setTransparentCircleAlpha(100);
@@ -85,6 +91,16 @@ public class PieChartActivity extends Activity {
         pieChart.setRotationEnabled(false);
 
         pieChart.animateY(1000);
+    }
+
+    private SpannableString generateCenterSpannableText() {
+        String textColorStr = res.getString(0 + R.color.colorText);
+        SpannableString str = new SpannableString(
+                res.getString(R.string.app_name) + "\n" +
+                        res.getString(R.string.results_string));
+        str.setSpan(new StyleSpan(Typeface.BOLD), 0, str.length(), 0);
+        str.setSpan(new ForegroundColorSpan(Color.parseColor(textColorStr)), 0, str.length(), 0);
+        return str;
     }
 
     private int getCheatedAnswersNumber(boolean[] cheatedQuestionBank) {
