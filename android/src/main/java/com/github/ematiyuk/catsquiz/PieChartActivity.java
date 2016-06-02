@@ -2,9 +2,12 @@ package com.github.ematiyuk.catsquiz;
 
 import android.app.Activity;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
 
@@ -29,6 +32,9 @@ public class PieChartActivity extends Activity {
 
         Resources res = getResources();
 
+        // "0 + color resource ID" makes it possible to get String value of the specified color
+        String backgroundColorStr = res.getString(0 + R.color.colorBackground);
+
         final ArrayList<Entry> entries = new ArrayList<>();
         entries.add(new Entry(mCorrectAnswersNumber, 0));
         entries.add(new Entry(mIncorrectAnswersNumber, 1));
@@ -38,6 +44,15 @@ public class PieChartActivity extends Activity {
         labels.add(res.getString(R.string.correct_string));
         labels.add(res.getString(R.string.incorrect_string));
         labels.add(res.getString(R.string.cheated_string));
+
+        final PieDataSet dataSet = new PieDataSet(entries, "");
+        dataSet.setSliceSpace(2f); // set space between slices
+        dataSet.setSelectionShift(4f); // set a shift when tapping a slice
+
+        dataSet.setValueTextSize(20f);
+        dataSet.setValueTextColor(Color.parseColor(backgroundColorStr));
+
+        dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
     }
 
     private int getCheatedAnswersNumber(boolean[] cheatedQuestionBank) {
