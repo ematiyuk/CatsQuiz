@@ -3,6 +3,7 @@ package com.github.ematiyuk.catsquiz;
 import android.app.Activity;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 
 import com.github.mikephil.charting.charts.PieChart;
@@ -70,8 +71,9 @@ public class PieChartActivity extends Activity {
         // disables drawing slice labels
         pieChart.setDrawSliceText(false);
 
+        pieChart.setCenterTextTypeface(Typeface.createFromAsset(getAssets(), "OpenSans-Light.ttf"));
         pieChart.setCenterTextSize(20f);
-
+        
         pieChart.setTransparentCircleRadius(55f);
         pieChart.setTransparentCircleColor(Color.parseColor(backgroundColorStr));
         pieChart.setTransparentCircleAlpha(100);
