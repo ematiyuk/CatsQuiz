@@ -192,16 +192,6 @@ public class QuizActivity extends Activity {
             }
         });
 
-        mQuestionTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mCurrentIndex = (mCurrentIndex + 1) % mQuestionBank.length;
-                mQuestionMode = true;
-                mIsCheater = false;
-                updateQuestion();
-            }
-        });
-
         mCheatButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
