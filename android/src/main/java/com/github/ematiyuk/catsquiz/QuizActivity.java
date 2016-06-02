@@ -185,7 +185,16 @@ public class QuizActivity extends Activity {
         mNextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if ((mCurrentIndex + 1) == mQuestionBank.length) { // if it's the last question
+                    Intent intent = new Intent(QuizActivity.this, PieChartActivity.class);
+                    intent.putExtra(PieChartActivity.EXTRA_CORRECT_ANSWERS_NUMBER, mCorrectAnswersNumber);
+                    intent.putExtra(PieChartActivity.EXTRA_INCORRECT_ANSWERS_NUMBER, mIncorrectAnswersNumber);
+                    intent.putExtra(PieChartActivity.EXTRA_CHEATED_ANSWERS_BANK, mCheatedQuestionBank);
+                    startActivity(intent);
+                }
+                // go to the first question after the last one
                 mCurrentIndex = (mCurrentIndex + 1) % mQuestionBank.length;
+
                 mQuestionMode = true;
                 mIsCheater = false;
                 updateQuestion();
