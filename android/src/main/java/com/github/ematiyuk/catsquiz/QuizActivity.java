@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -76,6 +77,8 @@ public class QuizActivity extends Activity {
     private static final String KEY_MODE = "mode";
     private static final String KEY_IS_CHEATER = "isCheater";
     private static final String KEY_CHEATED_Q_BANK = "cheatedQuestionBank";
+    private static final String KEY_CORRECT_ANSWERS_NUMBER = "correctAnswersNumber";
+    private static final String KEY_INCORRECT_ANSWERS_NUMBER = "incorrectAnswersNumber";
 
 
     private void updateQuestion() {
@@ -134,6 +137,8 @@ public class QuizActivity extends Activity {
             mQuestionMode = savedInstanceState.getBoolean(KEY_MODE, true);
             mIsCheater = savedInstanceState.getBoolean(KEY_IS_CHEATER, false);
             mCheatedQuestionBank = savedInstanceState.getBooleanArray(KEY_CHEATED_Q_BANK).clone();
+            mCorrectAnswersNumber = savedInstanceState.getInt(KEY_CORRECT_ANSWERS_NUMBER, 0);
+            mIncorrectAnswersNumber = savedInstanceState.getInt(KEY_INCORRECT_ANSWERS_NUMBER, 0);
         }
 
         mQuestionTextView = (TextView) findViewById(R.id.question_text_view);
@@ -220,6 +225,8 @@ public class QuizActivity extends Activity {
         outState.putBoolean(KEY_MODE, mQuestionMode);
         outState.putBoolean(KEY_IS_CHEATER, mIsCheater);
         outState.putBooleanArray(KEY_CHEATED_Q_BANK, mCheatedQuestionBank);
+        outState.putInt(KEY_CORRECT_ANSWERS_NUMBER, mCorrectAnswersNumber);
+        outState.putInt(KEY_INCORRECT_ANSWERS_NUMBER, mIncorrectAnswersNumber);
     }
 
     @Override
