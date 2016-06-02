@@ -10,6 +10,7 @@ public class PieChartActivity extends Activity {
 
     private int mCorrectAnswersNumber = 0;
     private int mIncorrectAnswersNumber = 0;
+    private int mCheatedAnswersNumber = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,5 +19,17 @@ public class PieChartActivity extends Activity {
 
         mCorrectAnswersNumber = getIntent().getIntExtra(EXTRA_CORRECT_ANSWERS_NUMBER, 0);
         mIncorrectAnswersNumber = getIntent().getIntExtra(EXTRA_INCORRECT_ANSWERS_NUMBER, 0);
+        mCheatedAnswersNumber = getCheatedAnswersNumber(
+                getIntent().getBooleanArrayExtra(EXTRA_CHEATED_ANSWERS_BANK));
+    }
+
+    private int getCheatedAnswersNumber(boolean[] cheatedQuestionBank) {
+        int cheatedQBankLength = cheatedQuestionBank.length;
+        int count = 0;
+        for (int i = 0; i < cheatedQBankLength; i++) {
+            if (cheatedQuestionBank[i])
+                count++;
+        }
+        return count;
     }
 }
