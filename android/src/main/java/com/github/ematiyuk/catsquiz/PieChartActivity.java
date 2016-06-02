@@ -5,7 +5,9 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
 
+import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
@@ -24,6 +26,8 @@ public class PieChartActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_piechart);
+
+        final PieChart pieChart = (PieChart) findViewById(R.id.chart);
 
         mCorrectAnswersNumber = getIntent().getIntExtra(EXTRA_CORRECT_ANSWERS_NUMBER, 0);
         mIncorrectAnswersNumber = getIntent().getIntExtra(EXTRA_INCORRECT_ANSWERS_NUMBER, 0);
@@ -51,8 +55,34 @@ public class PieChartActivity extends Activity {
 
         dataSet.setValueTextSize(20f);
         dataSet.setValueTextColor(Color.parseColor(backgroundColorStr));
+        dataSet.setValueFormatter(new CustomValueFormatter());
 
         dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
+
+        PieData data = new PieData(labels, dataSet);
+
+        // enables drawing slice values
+        data.setDrawValues(true);
+
+        pieChart.setDescription("");
+        pieChart.setData(data);
+
+        // disables drawing slice labels
+        pieChart.setDrawSliceText(false);
+
+        pieChart.setCenterTextSize(20f);
+
+        pieChart.setTransparentCircleRadius(55f);
+        pieChart.setTransparentCircleColor(Color.parseColor(backgroundColorStr));
+        pieChart.setTransparentCircleAlpha(100);
+
+        pieChart.setHoleColor(Color.parseColor(backgroundColorStr));
+        pieChart.setHoleRadius(50f);
+
+        // disable rotation of the chart by touch
+        pieChart.setRotationEnabled(false);
+
+        pieChart.animateY(1000);
     }
 
     private int getCheatedAnswersNumber(boolean[] cheatedQuestionBank) {
