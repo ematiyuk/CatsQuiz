@@ -14,6 +14,8 @@ import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.highlight.Highlight;
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
@@ -100,6 +102,24 @@ public class PieChartActivity extends Activity {
         legend.setXEntrySpace(20f);
         legend.setYEntrySpace(0f);
         legend.setYOffset(20f);
+
+        pieChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
+            @Override
+            public void onValueSelected(Entry e, int dataSetIndex, Highlight h) {
+                if (e == null)
+                    return;
+                int xIndex = e.getXIndex();
+
+                setDefaultCenterTextSize(pieChart,
+                        Math.round(e.getVal()) + "\n" + labels.get(xIndex));
+                pieChart.setCenterTextColor(pieChart.getData().getColors()[xIndex]);
+            }
+
+            @Override
+            public void onNothingSelected() {
+                pieChart.setCenterText(generateCenterSpannableText());
+            }
+        });
     }
 
     private SpannableString generateCenterSpannableText() {
@@ -110,6 +130,11 @@ public class PieChartActivity extends Activity {
         str.setSpan(new StyleSpan(Typeface.BOLD), 0, str.length(), 0);
         str.setSpan(new ForegroundColorSpan(Color.parseColor(textColorStr)), 0, str.length(), 0);
         return str;
+    }
+
+    private void setDefaultCenterTextSize(PieChart pieChart, CharSequence text) {
+        pieChart.setCenterText(text);
+        pieChart.setCenterTextSize(20f);
     }
 
     private int getCheatedAnswersNumber(boolean[] cheatedQuestionBank) {
