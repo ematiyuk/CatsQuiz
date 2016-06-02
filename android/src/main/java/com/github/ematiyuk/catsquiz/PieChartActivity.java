@@ -10,6 +10,7 @@ import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
 
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
@@ -91,6 +92,14 @@ public class PieChartActivity extends Activity {
         pieChart.setRotationEnabled(false);
 
         pieChart.animateY(1000);
+
+        Legend legend = pieChart.getLegend();
+        legend.setPosition(Legend.LegendPosition.BELOW_CHART_CENTER);
+        legend.setTextSize(12f);
+        legend.setFormSize(12f);
+        legend.setXEntrySpace(20f);
+        legend.setYEntrySpace(0f);
+        legend.setYOffset(20f);
     }
 
     private SpannableString generateCenterSpannableText() {
