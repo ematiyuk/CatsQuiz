@@ -68,6 +68,10 @@ public class QuizActivity extends Activity {
     private boolean mQuestionMode = true;
     /** defines whether user used cheat at CheatActivity for current question or not */
     private boolean mIsCheater;
+    /** counts times of correctly answered questions */
+    private int mCorrectAnswersNumber = 0;
+    /** counts times of wrong answered questions */
+    private int mIncorrectAnswersNumber = 0;
     private static final String KEY_INDEX = "index";
     private static final String KEY_MODE = "mode";
     private static final String KEY_IS_CHEATER = "isCheater";
@@ -104,9 +108,15 @@ public class QuizActivity extends Activity {
 
         if (mCheatedQuestionBank[mCurrentIndex])
             messageResId = R.string.judgment_toast;
-        else
-            messageResId = (userPressedTrue == answerIsTrue) ? R.string.correct_toast
-                    : R.string.incorrect_toast;
+        else {
+            if (userPressedTrue == answerIsTrue) {
+                messageResId = R.string.correct_string;
+                mCorrectAnswersNumber++;
+            } else {
+                messageResId = R.string.incorrect_string;
+                mIncorrectAnswersNumber++;
+            }
+        }
 
         Toast.makeText(this, messageResId, Toast.LENGTH_SHORT).show();
         updateAnswer();
