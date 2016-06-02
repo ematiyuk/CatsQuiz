@@ -29,52 +29,30 @@ public class PieChartActivity extends Activity {
     private int mIncorrectAnswersNumber = 0;
     private int mCheatedAnswersNumber = 0;
 
-    Resources res;
+    private PieChart pieChart;
+    private Resources res;
+    private String backgroundColorStr;
+    private ArrayList<String> labels;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_piechart);
 
-        final PieChart pieChart = (PieChart) findViewById(R.id.chart);
-
         mCorrectAnswersNumber = getIntent().getIntExtra(EXTRA_CORRECT_ANSWERS_NUMBER, 0);
         mIncorrectAnswersNumber = getIntent().getIntExtra(EXTRA_INCORRECT_ANSWERS_NUMBER, 0);
         mCheatedAnswersNumber = getCheatedAnswersNumber(
                 getIntent().getBooleanArrayExtra(EXTRA_CHEATED_ANSWERS_BANK));
 
+        pieChart = (PieChart) findViewById(R.id.chart);
         res = getResources();
 
         // "0 + color resource ID" makes it possible to get String value of the specified color
-        String backgroundColorStr = res.getString(0 + R.color.colorBackground);
+        backgroundColorStr = res.getString(0 + R.color.colorBackground);
 
-        final ArrayList<Entry> entries = new ArrayList<>();
-        entries.add(new Entry(mCorrectAnswersNumber, 0));
-        entries.add(new Entry(mIncorrectAnswersNumber, 1));
-        entries.add(new Entry(mCheatedAnswersNumber, 2));
-
-        final ArrayList<String> labels = new ArrayList<String>();
-        labels.add(res.getString(R.string.correct_string));
-        labels.add(res.getString(R.string.incorrect_string));
-        labels.add(res.getString(R.string.cheated_string));
-
-        final PieDataSet dataSet = new PieDataSet(entries, "");
-        dataSet.setSliceSpace(2f); // set space between slices
-        dataSet.setSelectionShift(4f); // set a shift when tapping a slice
-
-        dataSet.setValueTextSize(20f);
-        dataSet.setValueTextColor(Color.parseColor(backgroundColorStr));
-        dataSet.setValueFormatter(new CustomValueFormatter());
-
-        dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
-
-        PieData data = new PieData(labels, dataSet);
-
-        // enables drawing slice values
-        data.setDrawValues(true);
+        setData(); // set data for PieChart
 
         pieChart.setDescription("");
-        pieChart.setData(data);
 
         // disables drawing slice labels
         pieChart.setDrawSliceText(false);
@@ -120,6 +98,35 @@ public class PieChartActivity extends Activity {
                 pieChart.setCenterText(generateCenterSpannableText());
             }
         });
+    }
+
+    private void setData() {
+        final ArrayList<Entry> entries = new ArrayList<>();
+        entries.add(new Entry(mCorrectAnswersNumber, 0));
+        entries.add(new Entry(mIncorrectAnswersNumber, 1));
+        entries.add(new Entry(mCheatedAnswersNumber, 2));
+
+        labels = new ArrayList<String>();
+        labels.add(res.getString(R.string.correct_string));
+        labels.add(res.getString(R.string.incorrect_string));
+        labels.add(res.getString(R.string.cheated_string));
+
+        final PieDataSet dataSet = new PieDataSet(entries, "");
+        dataSet.setSliceSpace(2f); // set space between slices
+        dataSet.setSelectionShift(4f); // set a shift when tapping a slice
+
+        dataSet.setValueTextSize(20f);
+        dataSet.setValueTextColor(Color.parseColor(backgroundColorStr));
+        dataSet.setValueFormatter(new CustomValueFormatter());
+
+        dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
+
+        PieData data = new PieData(labels, dataSet);
+
+        // enables drawing slice values
+        data.setDrawValues(true);
+
+        pieChart.setData(data);
     }
 
     private SpannableString generateCenterSpannableText() {
