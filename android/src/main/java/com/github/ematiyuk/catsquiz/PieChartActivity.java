@@ -78,7 +78,7 @@ public class PieChartActivity extends Activity {
         Legend legend = pieChart.getLegend();
         legend.setPosition(Legend.LegendPosition.BELOW_CHART_CENTER);
         legend.setTextSize(12f);
-        legend.setFormSize(12f);
+        legend.setFormSize(14f);
         legend.setXEntrySpace(20f);
         legend.setYEntrySpace(0f);
         legend.setYOffset(20f);
