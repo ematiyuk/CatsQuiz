@@ -205,4 +205,10 @@ public class PieChartActivity extends Activity {
         }
         return count;
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        setResult(RESULT_OK); // return result to the caller
+    }
 }
