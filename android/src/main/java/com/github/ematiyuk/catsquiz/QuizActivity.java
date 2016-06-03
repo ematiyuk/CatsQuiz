@@ -12,6 +12,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Arrays;
 import java.util.Locale;
 
 public class QuizActivity extends Activity {
@@ -177,7 +178,7 @@ public class QuizActivity extends Activity {
                     intent.putExtra(PieChartActivity.EXTRA_CORRECT_ANSWERS_NUMBER, mCorrectAnswersNumber);
                     intent.putExtra(PieChartActivity.EXTRA_INCORRECT_ANSWERS_NUMBER, mIncorrectAnswersNumber);
                     intent.putExtra(PieChartActivity.EXTRA_CHEATED_ANSWERS_BANK, mCheatedQuestionBank);
-                    startActivity(intent);
+                    startActivityForResult(intent, 1);
                 }
                 // go to the first question after the last one
                 mCurrentIndex = (mCurrentIndex + 1) % mQuestionBank.length;
@@ -217,9 +218,19 @@ public class QuizActivity extends Activity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (data == null)
-            return;
-        mIsCheater = data.getBooleanExtra(CheatActivity.EXTRA_ANSWER_SHOWN, false);
+        switch (requestCode) {
+            case 0:
+                if (data == null)
+                    return;
+                mIsCheater = data.getBooleanExtra(CheatActivity.EXTRA_ANSWER_SHOWN, false);
+                break;
+            case 1:
+                mCorrectAnswersNumber = 0;
+                mIncorrectAnswersNumber = 0;
+                // initialize existing array with false values
+                Arrays.fill(mCheatedQuestionBank, false);
+                break;
+        }
     }
 
     private void updateWidgetsVisibility() {
