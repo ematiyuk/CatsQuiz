@@ -19,6 +19,7 @@ import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class PieChartActivity extends Activity {
     public static final String EXTRA_CORRECT_ANSWERS_NUMBER = "com.github.ematiyuk.catsquiz.correct_answers_number";
@@ -116,7 +117,7 @@ public class PieChartActivity extends Activity {
         dataSet.setSelectionShift(4f); // set a shift when tapping a slice
 
         dataSet.setValueTextSize(20f);
-        dataSet.setValueTextColor(Color.parseColor(backgroundColorStr));
+//        dataSet.setValueTextColor(Color.parseColor(backgroundColorStr)); // sets in setValueTextColors()
         dataSet.setValueFormatter(new CustomValueFormatter());
 
         dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
@@ -127,6 +128,57 @@ public class PieChartActivity extends Activity {
         data.setDrawValues(true);
 
         pieChart.setData(data);
+
+        setValueTextColors();
+
+        // undo all highlights
+        pieChart.highlightValues(null);
+
+        pieChart.invalidate();
+    }
+
+    /** Sets background or transparent color for the value text depending on answerNumber variable,
+     *  f.i. if mCorrectAnswersNumber > 0 its value text color on the PieChart is set to transparent one */
+    private void setValueTextColors() {
+        int transparentColor = android.R.color.transparent;
+        int backgroundColor = Color.parseColor(backgroundColorStr);
+        List<Integer> colors = new ArrayList<Integer>();
+
+        boolean correctANGreaterThanZero = mCorrectAnswersNumber > 0;
+        boolean incorrectANGreaterThanZero = mIncorrectAnswersNumber > 0;
+        boolean cheatedANGreaterThanZero = mCheatedAnswersNumber > 0;
+
+        if (correctANGreaterThanZero && incorrectANGreaterThanZero && cheatedANGreaterThanZero) {
+            colors.add(backgroundColor);
+            colors.add(backgroundColor);
+            colors.add(backgroundColor);
+        } else if (correctANGreaterThanZero && incorrectANGreaterThanZero && !cheatedANGreaterThanZero) {
+            colors.add(backgroundColor);
+            colors.add(backgroundColor);
+            colors.add(transparentColor);
+        } else if (correctANGreaterThanZero && !incorrectANGreaterThanZero && cheatedANGreaterThanZero) {
+            colors.add(backgroundColor);
+            colors.add(transparentColor);
+            colors.add(backgroundColor);
+        } else if (correctANGreaterThanZero && !incorrectANGreaterThanZero && !cheatedANGreaterThanZero) {
+            colors.add(backgroundColor);
+            colors.add(transparentColor);
+            colors.add(transparentColor);
+        } else if (!correctANGreaterThanZero && incorrectANGreaterThanZero && cheatedANGreaterThanZero) {
+            colors.add(transparentColor);
+            colors.add(backgroundColor);
+            colors.add(backgroundColor);
+        } else if (!correctANGreaterThanZero && incorrectANGreaterThanZero && !cheatedANGreaterThanZero) {
+            colors.add(transparentColor);
+            colors.add(backgroundColor);
+            colors.add(transparentColor);
+        } else if (!correctANGreaterThanZero && !incorrectANGreaterThanZero && cheatedANGreaterThanZero) {
+            colors.add(transparentColor);
+            colors.add(transparentColor);
+            colors.add(backgroundColor);
+        }
+
+        pieChart.getData().getDataSet().setValueTextColors(colors);
     }
 
     private SpannableString generateCenterSpannableText() {
