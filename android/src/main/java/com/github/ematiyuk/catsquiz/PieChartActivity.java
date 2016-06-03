@@ -7,7 +7,6 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
-import android.text.style.StyleSpan;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
@@ -34,6 +33,7 @@ public class PieChartActivity extends Activity {
     private Resources res;
     private String backgroundColorStr;
     private ArrayList<String> labels;
+    private Typeface tf;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +51,8 @@ public class PieChartActivity extends Activity {
         // "0 + color resource ID" makes it possible to get String value of the specified color
         backgroundColorStr = res.getString(0 + R.color.colorBackground);
 
+        tf = Typeface.createFromAsset(getAssets(), "OpenSans-Semibold.ttf");
+
         setData(); // set data for PieChart
 
         pieChart.setDescription("");
@@ -58,9 +60,8 @@ public class PieChartActivity extends Activity {
         // disables drawing slice labels
         pieChart.setDrawSliceText(false);
 
-        pieChart.setCenterTextTypeface(Typeface.createFromAsset(getAssets(), "OpenSans-Light.ttf"));
         pieChart.setCenterTextSize(20f);
-        pieChart.setCenterText(generateCenterSpannableText());
+        setDefaultCenterText();
 
         pieChart.setTransparentCircleRadius(55f);
         pieChart.setTransparentCircleColor(Color.parseColor(backgroundColorStr));
@@ -81,6 +82,7 @@ public class PieChartActivity extends Activity {
         legend.setXEntrySpace(20f);
         legend.setYEntrySpace(0f);
         legend.setYOffset(20f);
+        legend.setTypeface(tf);
 
         pieChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
             @Override
@@ -89,14 +91,14 @@ public class PieChartActivity extends Activity {
                     return;
                 int xIndex = e.getXIndex();
 
-                setDefaultCenterTextSize(pieChart,
-                        Math.round(e.getVal()) + "\n" + labels.get(xIndex));
-                pieChart.setCenterTextColor(pieChart.getData().getColors()[xIndex]);
+                pieChart.setCenterText(getFormattedCenterSpannableText(
+                        new SpannableString(Math.round(e.getVal()) + "\n" + labels.get(xIndex)),
+                        pieChart.getData().getColors()[xIndex]));
             }
 
             @Override
             public void onNothingSelected() {
-                pieChart.setCenterText(generateCenterSpannableText());
+                setDefaultCenterText();
             }
         });
     }
@@ -117,8 +119,8 @@ public class PieChartActivity extends Activity {
         dataSet.setSelectionShift(4f); // set a shift when tapping a slice
 
         dataSet.setValueTextSize(20f);
-//        dataSet.setValueTextColor(Color.parseColor(backgroundColorStr)); // sets in setValueTextColors()
         dataSet.setValueFormatter(new CustomValueFormatter());
+        dataSet.setValueTypeface(tf);
 
         dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
 
@@ -181,19 +183,17 @@ public class PieChartActivity extends Activity {
         pieChart.getData().getDataSet().setValueTextColors(colors);
     }
 
-    private SpannableString generateCenterSpannableText() {
-        String textColorStr = res.getString(0 + R.color.colorText);
-        SpannableString str = new SpannableString(
-                res.getString(R.string.app_name) + "\n" +
-                        res.getString(R.string.results_string));
-        str.setSpan(new StyleSpan(Typeface.BOLD), 0, str.length(), 0);
-        str.setSpan(new ForegroundColorSpan(Color.parseColor(textColorStr)), 0, str.length(), 0);
-        return str;
+    private SpannableString getFormattedCenterSpannableText(SpannableString text, int color) {
+        text.setSpan(new CustomTypefaceSpan("", tf), 0, text.length(), 0);
+        text.setSpan(new ForegroundColorSpan(color), 0, text.length(), 0);
+        return text;
     }
 
-    private void setDefaultCenterTextSize(PieChart pieChart, CharSequence text) {
-        pieChart.setCenterText(text);
-        pieChart.setCenterTextSize(20f);
+    private void setDefaultCenterText() {
+        pieChart.setCenterText(getFormattedCenterSpannableText(
+                new SpannableString(res.getString(R.string.app_name) + "\n" +
+                        res.getString(R.string.results_string)),
+                R.color.colorText));
     }
 
     private int getCheatedAnswersNumber(boolean[] cheatedQuestionBank) {
