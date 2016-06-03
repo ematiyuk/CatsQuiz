@@ -17,6 +17,9 @@
         <activity
             android:name=".CheatActivity"
             android:label="@string/app_name"></activity>
+        <activity
+            android:name=".PieChartActivity"
+            android:label="@string/app_name"/>
     </application>
 
 </manifest>

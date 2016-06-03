@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -68,10 +69,16 @@ public class QuizActivity extends Activity {
     private boolean mQuestionMode = true;
     /** defines whether user used cheat at CheatActivity for current question or not */
     private boolean mIsCheater;
+    /** counts times of correctly answered questions */
+    private int mCorrectAnswersNumber = 0;
+    /** counts times of wrong answered questions */
+    private int mIncorrectAnswersNumber = 0;
     private static final String KEY_INDEX = "index";
     private static final String KEY_MODE = "mode";
     private static final String KEY_IS_CHEATER = "isCheater";
     private static final String KEY_CHEATED_Q_BANK = "cheatedQuestionBank";
+    private static final String KEY_CORRECT_ANSWERS_NUMBER = "correctAnswersNumber";
+    private static final String KEY_INCORRECT_ANSWERS_NUMBER = "incorrectAnswersNumber";
 
 
     private void updateQuestion() {
@@ -104,9 +111,15 @@ public class QuizActivity extends Activity {
 
         if (mCheatedQuestionBank[mCurrentIndex])
             messageResId = R.string.judgment_toast;
-        else
-            messageResId = (userPressedTrue == answerIsTrue) ? R.string.correct_toast
-                    : R.string.incorrect_toast;
+        else {
+            if (userPressedTrue == answerIsTrue) {
+                messageResId = R.string.correct_string;
+                mCorrectAnswersNumber++;
+            } else {
+                messageResId = R.string.incorrect_string;
+                mIncorrectAnswersNumber++;
+            }
+        }
 
         Toast.makeText(this, messageResId, Toast.LENGTH_SHORT).show();
         updateAnswer();
@@ -124,6 +137,8 @@ public class QuizActivity extends Activity {
             mQuestionMode = savedInstanceState.getBoolean(KEY_MODE, true);
             mIsCheater = savedInstanceState.getBoolean(KEY_IS_CHEATER, false);
             mCheatedQuestionBank = savedInstanceState.getBooleanArray(KEY_CHEATED_Q_BANK).clone();
+            mCorrectAnswersNumber = savedInstanceState.getInt(KEY_CORRECT_ANSWERS_NUMBER, 0);
+            mIncorrectAnswersNumber = savedInstanceState.getInt(KEY_INCORRECT_ANSWERS_NUMBER, 0);
         }
 
         mQuestionTextView = (TextView) findViewById(R.id.question_text_view);
@@ -170,17 +185,16 @@ public class QuizActivity extends Activity {
         mNextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if ((mCurrentIndex + 1) == mQuestionBank.length) { // if it's the last question
+                    Intent intent = new Intent(QuizActivity.this, PieChartActivity.class);
+                    intent.putExtra(PieChartActivity.EXTRA_CORRECT_ANSWERS_NUMBER, mCorrectAnswersNumber);
+                    intent.putExtra(PieChartActivity.EXTRA_INCORRECT_ANSWERS_NUMBER, mIncorrectAnswersNumber);
+                    intent.putExtra(PieChartActivity.EXTRA_CHEATED_ANSWERS_BANK, mCheatedQuestionBank);
+                    startActivity(intent);
+                }
+                // go to the first question after the last one
                 mCurrentIndex = (mCurrentIndex + 1) % mQuestionBank.length;
-                mQuestionMode = true;
-                mIsCheater = false;
-                updateQuestion();
-            }
-        });
 
-        mQuestionTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mCurrentIndex = (mCurrentIndex + 1) % mQuestionBank.length;
                 mQuestionMode = true;
                 mIsCheater = false;
                 updateQuestion();
@@ -210,6 +224,8 @@ public class QuizActivity extends Activity {
         outState.putBoolean(KEY_MODE, mQuestionMode);
         outState.putBoolean(KEY_IS_CHEATER, mIsCheater);
         outState.putBooleanArray(KEY_CHEATED_Q_BANK, mCheatedQuestionBank);
+        outState.putInt(KEY_CORRECT_ANSWERS_NUMBER, mCorrectAnswersNumber);
+        outState.putInt(KEY_INCORRECT_ANSWERS_NUMBER, mIncorrectAnswersNumber);
     }
 
     @Override
