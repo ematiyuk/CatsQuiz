@@ -18,7 +18,6 @@ public class QuizActivity extends Activity {
 
     private Button mTrueButton;
     private Button mFalseButton;
-    private ImageButton mPrevButton;
     private ImageButton mNextButton;
     private Button mCheatButton;
     private TextView mQuestionTextView;
@@ -146,7 +145,6 @@ public class QuizActivity extends Activity {
         mQuestionNumberTextView = (TextView) findViewById(R.id.question_number_text_view);
         mTrueButton = (Button) findViewById(R.id.true_button);
         mFalseButton = (Button) findViewById(R.id.false_button);
-        mPrevButton = (ImageButton) findViewById(R.id.prev_button);
         mNextButton = (ImageButton) findViewById(R.id.next_button);
         mCheatButton = (Button) findViewById(R.id.cheat_button);
 
@@ -168,17 +166,6 @@ public class QuizActivity extends Activity {
                     mCheatedQuestionBank[mCurrentIndex] = mIsCheater;
                 mQuestionMode = false;
                 checkAnswer(false);
-            }
-        });
-
-        mPrevButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mCurrentIndex = ((mCurrentIndex - 1) % mQuestionBank.length < 0) ? 0
-                        : (mCurrentIndex - 1) % mQuestionBank.length;
-                mQuestionMode = true;
-                mIsCheater = false;
-                updateQuestion();
             }
         });
 
@@ -237,7 +224,6 @@ public class QuizActivity extends Activity {
 
     private void updateWidgetsVisibility() {
         if (mQuestionMode) {
-            mPrevButton.setVisibility(View.GONE);
             mNextButton.setVisibility(View.GONE);
             mAnswerTextView.setVisibility(View.GONE);
             mTrueButton.setVisibility(View.VISIBLE);
@@ -248,8 +234,6 @@ public class QuizActivity extends Activity {
             mFalseButton.setVisibility(View.GONE);
             mCheatButton.setVisibility(View.GONE);
             mAnswerTextView.setVisibility(View.VISIBLE);
-            if (mCurrentIndex > 0)
-                mPrevButton.setVisibility(View.VISIBLE);
             mNextButton.setVisibility(View.VISIBLE);
         }
     }
