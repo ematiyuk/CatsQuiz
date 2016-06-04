@@ -13,6 +13,7 @@
     <string name="incorrect_string">Incorrect</string>
     <string name="cheated_string">Cheated</string>
     <string name="results_string">results</string>
+    <string name="share_menu_item">Share</string>
     <!-- Questions -->
     <string name="question_whiskers_hunt">A cat\'s whiskers help it hunt at night.</string>
     <string name="question_heart_beat">When resting, a cat\'s heart beats nearly twice as fast as a human\'s.</string>
