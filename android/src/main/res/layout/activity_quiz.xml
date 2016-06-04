@@ -9,6 +9,7 @@
     <TextView
         android:id="@+id/question_text_view"
         style="@style/QuestionTextView" />
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -18,32 +19,29 @@
 
         <Button
             android:id="@+id/true_button"
-            android:layout_width="100dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@android:color/holo_orange_light"
-            android:textStyle="bold"
-            android:layout_margin="10dp"
+            style="@style/mainButtonStyle"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp"
             android:text="@string/true_button" />
 
         <Button
             android:id="@+id/false_button"
-            android:layout_width="100dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@android:color/holo_orange_light"
-            android:textStyle="bold"
-            android:layout_margin="10dp"
+            style="@style/mainButtonStyle"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp"
             android:text="@string/false_button" />
     </LinearLayout>
 
     <Button
         android:id="@+id/cheat_button"
-        android:layout_width="100dp"
-        android:layout_height="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
         android:text="@string/cheat_button"
-        android:background="@android:color/holo_orange_light"
-        android:textStyle="bold"
-        android:textSize="15sp"
-        android:textColor="#007ab2" />
+        style="@style/cheatButtonStyle"/>
 
     <TextView
         android:id="@+id/answer_text_view"
@@ -59,7 +57,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center|bottom"
-            android:layout_marginBottom="15dp" />
+            android:layout_marginBottom="15dp"
+            android:textColor="@color/colorText"/>
 
         <ImageButton
             android:id="@+id/next_button"
