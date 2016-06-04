@@ -3,6 +3,7 @@ package com.github.ematiyuk.catsquiz;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
@@ -19,9 +20,10 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
-import com.github.mikephil.charting.utils.ColorTemplate;
+import com.github.mikephil.charting.utils.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class PieChartActivity extends Activity {
@@ -117,7 +119,10 @@ public class PieChartActivity extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_item_share:
-                // do something
+                pieChart.highlightValues(null); // undo highlights
+                setDefaultCenterText(); // reset center text
+
+                shareResult(); // share quiz result saved image
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -231,6 +236,20 @@ public class PieChartActivity extends Activity {
                 count++;
         }
         return count;
+    }
+
+    private void shareResult() {
+        Date now = new Date();
+        String dateStr = android.text.format.DateFormat.format("dd-MM-yyyy_HH:mm:ss", now).toString();
+
+        String subFolderPath = res.getString(R.string.app_name);
+        String fileName = dateStr + ".jpg";
+        String fileDescription = res.getString(R.string.app_name) + " "
+                + res.getString(R.string.results_string);
+        Bitmap bitmap = pieChart.getChartBitmap(); // get a quiz result screenshot
+
+        Uri uri = Utils.saveImage(this, bitmap, fileName, subFolderPath, fileDescription);
+        shareImage(uri);
     }
 
     private void shareImage(Uri uri) {
