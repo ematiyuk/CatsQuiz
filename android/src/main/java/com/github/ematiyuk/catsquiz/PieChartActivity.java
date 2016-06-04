@@ -7,6 +7,8 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
@@ -101,6 +103,29 @@ public class PieChartActivity extends Activity {
                 setDefaultCenterText();
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.activity_piechart, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_item_share:
+                // do something
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        setResult(RESULT_OK); // return result to the caller
     }
 
     private void setData() {
@@ -204,11 +229,5 @@ public class PieChartActivity extends Activity {
                 count++;
         }
         return count;
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        setResult(RESULT_OK); // return result to the caller
     }
 }
