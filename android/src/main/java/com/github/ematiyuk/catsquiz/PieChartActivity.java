@@ -1,9 +1,11 @@
 package com.github.ematiyuk.catsquiz;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
@@ -229,5 +231,13 @@ public class PieChartActivity extends Activity {
                 count++;
         }
         return count;
+    }
+
+    private void shareImage(Uri uri) {
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_SEND);
+        intent.setType("image/jpeg");
+        intent.putExtra(Intent.EXTRA_STREAM, uri);
+        startActivity(Intent.createChooser(intent, res.getString(R.string.share_result_string)));
     }
 }
