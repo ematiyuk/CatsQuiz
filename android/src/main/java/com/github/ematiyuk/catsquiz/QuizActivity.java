@@ -179,13 +179,13 @@ public class QuizActivity extends Activity {
                     intent.putExtra(PieChartActivity.EXTRA_INCORRECT_ANSWERS_NUMBER, mIncorrectAnswersNumber);
                     intent.putExtra(PieChartActivity.EXTRA_CHEATED_ANSWERS_BANK, mCheatedQuestionBank);
                     startActivityForResult(intent, 1);
-                }
-                // go to the first question after the last one
-                mCurrentIndex = (mCurrentIndex + 1) % mQuestionBank.length;
+                } else {
+                    mCurrentIndex = (mCurrentIndex + 1) % mQuestionBank.length;
 
-                mQuestionMode = true;
-                mIsCheater = false;
-                updateQuestion();
+                    mQuestionMode = true;
+                    mIsCheater = false;
+                    updateQuestion();
+                }
             }
         });
 
@@ -229,6 +229,12 @@ public class QuizActivity extends Activity {
                 mIncorrectAnswersNumber = 0;
                 // initialize existing array with false values
                 Arrays.fill(mCheatedQuestionBank, false);
+
+                // go to the first question
+                mCurrentIndex = 0;
+                mQuestionMode = true;
+                mIsCheater = false;
+                updateQuestion();
                 break;
         }
     }
