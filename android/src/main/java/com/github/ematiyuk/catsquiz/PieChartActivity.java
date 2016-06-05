@@ -226,8 +226,8 @@ public class PieChartActivity extends Activity {
 
     private void setDefaultCenterText() {
         pieChart.setCenterText(getFormattedCenterSpannableText(
-                new SpannableString(res.getString(R.string.app_name) + "\n" +
-                        res.getString(R.string.results_string)),
+                new SpannableString(res.getString(R.string.score_string) + "\n" +
+                        mCorrectAnswersNumber + "/" + mQuestionsQuantity),
                 R.color.colorText));
     }
 
