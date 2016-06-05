@@ -286,11 +286,10 @@ public class PieChartActivity extends Activity {
         Date now = new Date();
         String dateStr = android.text.format.DateFormat.format("dd-MM-yyyy_HH:mm:ss", now).toString();
 
-        String subFolderPath = res.getString(R.string.app_name);
         String fileName = dateStr + ".jpg";
         Bitmap bitmap = pieChart.getChartBitmap(); // get a quiz result screenshot
 
-        Uri uri = Utils.saveImage(this, bitmap, fileName, subFolderPath);
+        Uri uri = Utils.saveImage(this, bitmap, fileName);
         shareImage(uri);
     }
 

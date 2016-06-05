@@ -13,17 +13,10 @@ import java.io.IOException;
 
 public class Utils {
 
-    public static Uri saveImage(Context context, Bitmap bitmap, String imageFileName,
-                                String subFolderPath) {
+    public static Uri saveImage(Context context, Bitmap bitmap, String imageFileName) {
         long currentTime = System.currentTimeMillis();
 
-        File fileDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath()
-                + "/Pictures/" + subFolderPath);
-        if (!fileDir.exists()) {
-            if (!fileDir.mkdirs()) {
-                return null;
-            }
-        }
+        File fileDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
 
         String mimeType = "image/jpeg";
         if (!(imageFileName.endsWith(".jpg") || imageFileName.endsWith(".jpeg")))
@@ -31,7 +24,7 @@ public class Utils {
 
         int quality = 100;
 
-        String filePath = fileDir.getAbsolutePath() + "/" + imageFileName;
+        String filePath = fileDir + "/" + imageFileName;
         FileOutputStream out = null;
         try {
             out = new FileOutputStream(filePath);
