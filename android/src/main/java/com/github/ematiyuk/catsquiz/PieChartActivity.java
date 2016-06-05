@@ -76,6 +76,8 @@ public class PieChartActivity extends Activity {
         pieChart.setTransparentCircleColor(Color.parseColor(backgroundColorStr));
         pieChart.setTransparentCircleAlpha(100);
 
+        pieChart.setBackgroundColor(Color.parseColor(backgroundColorStr));
+
         pieChart.setHoleColor(Color.parseColor(backgroundColorStr));
         pieChart.setHoleRadius(50f);
 
