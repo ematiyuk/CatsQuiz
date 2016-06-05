@@ -174,7 +174,7 @@ public class QuizActivity extends Activity {
             @Override
             public void onClick(View view) {
                 if ((mCurrentIndex + 1) == mQuestionBank.length) { // if it's the last question
-                    mNextButton.setVisibility(View.GONE); // hide Next button
+                    mNextButton.setEnabled(false);
                     Intent intent = new Intent(QuizActivity.this, PieChartActivity.class);
                     intent.putExtra(PieChartActivity.EXTRA_CORRECT_ANSWERS_NUMBER, mCorrectAnswersNumber);
                     intent.putExtra(PieChartActivity.EXTRA_INCORRECT_ANSWERS_NUMBER, mIncorrectAnswersNumber);
@@ -237,6 +237,7 @@ public class QuizActivity extends Activity {
                 mQuestionMode = true;
                 mIsCheater = false;
                 updateQuestion();
+                mNextButton.setEnabled(true);
                 break;
         }
     }
