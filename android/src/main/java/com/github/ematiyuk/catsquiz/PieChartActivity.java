@@ -14,6 +14,8 @@ import android.text.style.ForegroundColorSpan;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -50,6 +52,9 @@ public class PieChartActivity extends Activity {
     private TextView mQuizResultTextView;
     private Button mStartOverButton;
 
+    Animation alphaAnimation;
+    Animation translateAnimation;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +68,9 @@ public class PieChartActivity extends Activity {
 
         mQuizResultTextView = (TextView) findViewById(R.id.quiz_result_text_view);
         mStartOverButton = (Button) findViewById(R.id.start_over_button);
+
+        alphaAnimation = AnimationUtils.loadAnimation(this, R.anim.text_alpha_anim);
+        translateAnimation = AnimationUtils.loadAnimation(this, R.anim.button_translate_anim);
 
         pieChart = (PieChart) findViewById(R.id.chart);
         res = getResources();
@@ -95,6 +103,7 @@ public class PieChartActivity extends Activity {
         pieChart.setRotationEnabled(false);
 
         pieChart.animateY(1000);
+        animateWidgets();
 
         Legend legend = pieChart.getLegend();
         legend.setTextSize(12f);
@@ -291,5 +300,10 @@ public class PieChartActivity extends Activity {
         intent.setType("image/jpeg");
         intent.putExtra(Intent.EXTRA_STREAM, uri);
         startActivity(Intent.createChooser(intent, res.getString(R.string.share_result_string)));
+    }
+
+    private void animateWidgets() {
+        mQuizResultTextView.startAnimation(alphaAnimation);
+        mStartOverButton.startAnimation(translateAnimation);
     }
 }
