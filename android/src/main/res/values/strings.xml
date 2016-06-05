@@ -17,6 +17,7 @@
     <string name="score_string">Score</string>
     <string name="quiz_result_msg">Quiz result</string>
     <string name="start_over_button">Start over</string>
+    <string name="go_back_button">Go back</string>
 
     <!-- Questions -->
     <string name="question_whiskers_hunt">A cat\'s whiskers help it hunt at night.</string>

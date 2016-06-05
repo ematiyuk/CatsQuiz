@@ -45,4 +45,14 @@
 
     </LinearLayout>
 
+    <Button
+        android:id="@+id/go_back_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/cheatButtonStyle"
+        android:text="@string/go_back_button"
+        android:layout_gravity="left|bottom"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="20dp"/>
+
 </LinearLayout>
