@@ -13,6 +13,7 @@ import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -132,6 +133,13 @@ public class PieChartActivity extends Activity {
             @Override
             public void onNothingSelected() {
                 setDefaultCenterText();
+            }
+        });
+
+        mStartOverButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish(); // close the activity (the same as tapping Back button)
             }
         });
     }
