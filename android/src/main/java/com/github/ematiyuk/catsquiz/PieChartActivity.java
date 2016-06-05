@@ -2,6 +2,7 @@ package com.github.ematiyuk.catsquiz;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -95,13 +96,26 @@ public class PieChartActivity extends Activity {
         pieChart.animateY(1000);
 
         Legend legend = pieChart.getLegend();
-        legend.setPosition(Legend.LegendPosition.BELOW_CHART_CENTER);
         legend.setTextSize(12f);
         legend.setFormSize(14f);
-        legend.setXEntrySpace(20f);
-        legend.setYEntrySpace(0f);
-        legend.setYOffset(20f);
         legend.setTypeface(tf);
+
+        switch (res.getConfiguration().orientation) {
+            case Configuration.ORIENTATION_PORTRAIT:
+                legend.setPosition(Legend.LegendPosition.BELOW_CHART_CENTER);
+                legend.setXEntrySpace(20f);
+                legend.setYEntrySpace(0f);
+                legend.setYOffset(20f);
+                break;
+            case Configuration.ORIENTATION_LANDSCAPE:
+                legend.setPosition(Legend.LegendPosition.RIGHT_OF_CHART_CENTER);
+                legend.setXEntrySpace(6f);
+                legend.setYEntrySpace(10f);
+                legend.setYOffset(80f);
+                legend.setXOffset(130f);
+                break;
+            default:
+        }
 
         pieChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
             @Override
