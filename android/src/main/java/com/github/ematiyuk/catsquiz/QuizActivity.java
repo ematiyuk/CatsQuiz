@@ -179,6 +179,7 @@ public class QuizActivity extends Activity {
                     intent.putExtra(PieChartActivity.EXTRA_CORRECT_ANSWERS_NUMBER, mCorrectAnswersNumber);
                     intent.putExtra(PieChartActivity.EXTRA_INCORRECT_ANSWERS_NUMBER, mIncorrectAnswersNumber);
                     intent.putExtra(PieChartActivity.EXTRA_CHEATED_ANSWERS_BANK, mCheatedQuestionBank);
+                    intent.putExtra(PieChartActivity.EXTRA_QUESTIONS_QUANTITY, mQuestionBank.length);
                     startActivityForResult(intent, 1);
                 } else {
                     mCurrentIndex = (mCurrentIndex + 1) % mQuestionBank.length;

@@ -30,10 +30,12 @@ public class PieChartActivity extends Activity {
     public static final String EXTRA_CORRECT_ANSWERS_NUMBER = "com.github.ematiyuk.catsquiz.correct_answers_number";
     public static final String EXTRA_INCORRECT_ANSWERS_NUMBER = "com.github.ematiyuk.catsquiz.incorrect_answers_number";
     public static final String EXTRA_CHEATED_ANSWERS_BANK = "com.github.ematiyuk.catsquiz.cheated_answers_bank";
+    public static final String EXTRA_QUESTIONS_QUANTITY = "com.github.ematiyuk.catsquiz.questions_quantity";
 
     private int mCorrectAnswersNumber = 0;
     private int mIncorrectAnswersNumber = 0;
     private int mCheatedAnswersNumber = 0;
+    private int mQuestionsQuantity = 0;
 
     private PieChart pieChart;
     private Resources res;
@@ -48,6 +50,7 @@ public class PieChartActivity extends Activity {
 
         mCorrectAnswersNumber = getIntent().getIntExtra(EXTRA_CORRECT_ANSWERS_NUMBER, 0);
         mIncorrectAnswersNumber = getIntent().getIntExtra(EXTRA_INCORRECT_ANSWERS_NUMBER, 0);
+        mQuestionsQuantity = getIntent().getIntExtra(EXTRA_QUESTIONS_QUANTITY, 0);
         mCheatedAnswersNumber = getCheatedAnswersNumber(
                 getIntent().getBooleanArrayExtra(EXTRA_CHEATED_ANSWERS_BANK));
 
