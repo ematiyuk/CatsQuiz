@@ -12,6 +12,7 @@ import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.PieChart;
@@ -45,6 +46,7 @@ public class PieChartActivity extends Activity {
     private Typeface tf;
 
     private TextView mQuizResultTextView;
+    private Button mStartOverButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +60,7 @@ public class PieChartActivity extends Activity {
                 getIntent().getBooleanArrayExtra(EXTRA_CHEATED_ANSWERS_BANK));
 
         mQuizResultTextView = (TextView) findViewById(R.id.quiz_result_text_view);
+        mStartOverButton = (Button) findViewById(R.id.start_over_button);
 
         pieChart = (PieChart) findViewById(R.id.chart);
         res = getResources();
