@@ -17,6 +17,7 @@ public class CheatActivity extends Activity {
 
     private TextView mAnswerTextView;
     private Button mShowAnswer;
+    private Button mGoBackButton;
 
     private boolean mAnswerIsTrue;
     private boolean mAnswerIsShown;
@@ -52,6 +53,7 @@ public class CheatActivity extends Activity {
 
         mAnswerTextView = (TextView) findViewById(R.id.answerTextView);
         mShowAnswer = (Button) findViewById(R.id.showAnswerButton);
+        mGoBackButton = (Button) findViewById(R.id.go_back_button);
 
         mShowAnswer.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,6 +63,14 @@ public class CheatActivity extends Activity {
                 setAnswerShownResult();
             }
         });
+
+        mGoBackButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish(); // close the activity
+            }
+        });
+
         updateAnswer();
         // answer will not be shown until the user presses the button
         setAnswerShownResult();
