@@ -249,11 +249,9 @@ public class PieChartActivity extends Activity {
 
         String subFolderPath = res.getString(R.string.app_name);
         String fileName = dateStr + ".jpg";
-        String fileDescription = res.getString(R.string.app_name) + " "
-                + res.getString(R.string.results_string);
         Bitmap bitmap = pieChart.getChartBitmap(); // get a quiz result screenshot
 
-        Uri uri = Utils.saveImage(this, bitmap, fileName, subFolderPath, fileDescription);
+        Uri uri = Utils.saveImage(this, bitmap, fileName, subFolderPath);
         shareImage(uri);
     }
 

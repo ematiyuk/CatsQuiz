@@ -14,7 +14,7 @@ import java.io.IOException;
 public class Utils {
 
     public static Uri saveImage(Context context, Bitmap bitmap, String imageFileName,
-                                String subFolderPath, String fileDescription) {
+                                String subFolderPath) {
         long currentTime = System.currentTimeMillis();
 
         File fileDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath()
@@ -49,14 +49,13 @@ public class Utils {
 
         long size = new File(filePath).length();
 
-        ContentValues values = new ContentValues(7);
+        ContentValues values = new ContentValues(6);
 
         // store the details
         values.put(MediaStore.Images.Media.TITLE, imageFileName);
         values.put(MediaStore.Images.Media.DISPLAY_NAME, imageFileName);
         values.put(MediaStore.Images.Media.DATE_ADDED, currentTime);
         values.put(MediaStore.Images.Media.MIME_TYPE, mimeType);
-        values.put(MediaStore.Images.Media.DESCRIPTION, fileDescription);
         values.put(MediaStore.Images.Media.DATA, filePath);
         values.put(MediaStore.Images.Media.SIZE, size);
 
