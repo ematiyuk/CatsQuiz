@@ -13,7 +13,7 @@
         android:padding="24dp"
         android:layout_marginTop="150dp"
         android:textSize="20sp"
-        android:textColor="#f55c5c5c"
+        android:textColor="@color/colorText"
         android:text="@string/warning_text" />
 
     <LinearLayout
@@ -30,17 +30,29 @@
             android:layout_gravity="center"
             android:padding="24dp"
             android:textSize="15sp"
-            android:textColor="#f55c5c5c" />
+            android:textColor="@color/colorText" />
 
         <Button
             android:id="@+id/showAnswerButton"
-            android:layout_width="150dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:textColor="@android:color/holo_red_dark"
             android:text="@string/show_answer_button"
-            android:background="#30d30007" />
+            android:background="#30d30007"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"/>
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/go_back_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/cheatButtonStyle"
+        android:text="@string/go_back_button"
+        android:layout_gravity="left|bottom"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="20dp"/>
 
 </LinearLayout>
