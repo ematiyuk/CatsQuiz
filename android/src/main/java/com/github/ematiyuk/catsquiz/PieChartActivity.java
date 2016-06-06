@@ -82,7 +82,7 @@ public class PieChartActivity extends Activity {
 
         setData(); // set data for PieChart
 
-        pieChart.setDescription("");
+        setChartDescription(false); // hide chart description
 
         // disables drawing slice labels
         pieChart.setDrawSliceText(false);
@@ -165,8 +165,11 @@ public class PieChartActivity extends Activity {
             case R.id.menu_item_share:
                 pieChart.highlightValues(null); // undo highlights
                 setDefaultCenterText(); // reset center text
+                setChartDescription(true); // show chart description
 
                 shareResult(); // share quiz result saved image
+
+                setChartDescription(false); // hide chart description
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -304,5 +307,32 @@ public class PieChartActivity extends Activity {
     private void animateWidgets() {
         mQuizResultTextView.startAnimation(alphaAnimation);
         mStartOverButton.startAnimation(translateAnimation);
+    }
+
+    private void setChartDescription(boolean showDescription) {
+        if (showDescription) {
+            pieChart.setDescription(res.getString(R.string.quiz_result_msg));
+            pieChart.setDescriptionColor(R.color.colorText);
+            pieChart.setDescriptionTypeface(tf);
+            pieChart.setDescriptionTextSize(16f); // set max description text size
+
+            // get chart area dimensions
+            ViewPortHandler viewPortHandler = pieChart.getViewPortHandler();
+            float width = viewPortHandler.getChartWidth();
+            float height = viewPortHandler.getChartHeight();
+
+            // set description text position depending on screen orientation mode
+            switch (res.getConfiguration().orientation) {
+                case Configuration.ORIENTATION_PORTRAIT:
+                    pieChart.setDescriptionPosition(width - (width/20f), height/12f);
+                    break;
+                case Configuration.ORIENTATION_LANDSCAPE:
+                    pieChart.setDescriptionPosition(width - width/5f, height/14f);
+                    break;
+                default:
+            }
+        } else {
+            pieChart.setDescription("");
+        }
     }
 }
