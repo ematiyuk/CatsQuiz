@@ -287,9 +287,9 @@ public class PieChartActivity extends Activity {
 
     private void shareResult() {
         Date now = new Date();
-        String dateStr = android.text.format.DateFormat.format("dd-MM-yyyy_HH:mm:ss", now).toString();
+        String dateStr = android.text.format.DateFormat.format("yyyy-MM-dd-HH-mm-ss", now).toString();
 
-        String fileName = dateStr + ".jpg";
+        String fileName = "Screenshot_" + dateStr + ".png";
         Bitmap bitmap = pieChart.getChartBitmap(); // get a quiz result screenshot
 
         Uri uri = Utils.saveImage(this, bitmap, fileName);
@@ -299,7 +299,7 @@ public class PieChartActivity extends Activity {
     private void shareImage(Uri uri) {
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_SEND);
-        intent.setType("image/jpeg");
+        intent.setType("image/png");
         intent.putExtra(Intent.EXTRA_STREAM, uri);
         startActivity(Intent.createChooser(intent, res.getString(R.string.share_result_string)));
     }

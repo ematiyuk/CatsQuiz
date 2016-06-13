@@ -18,9 +18,7 @@ public class Utils {
 
         File fileDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
 
-        String mimeType = "image/jpeg";
-        if (!(imageFileName.endsWith(".jpg") || imageFileName.endsWith(".jpeg")))
-            imageFileName += ".jpg";
+        String mimeType = "image/png";
 
         int quality = 100;
 
@@ -29,7 +27,7 @@ public class Utils {
         try {
             out = new FileOutputStream(filePath);
 
-            bitmap.compress(Bitmap.CompressFormat.JPEG, quality, out);
+            bitmap.compress(Bitmap.CompressFormat.PNG, quality, out);
 
             out.flush();
             out.close();
