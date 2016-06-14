@@ -122,7 +122,7 @@ public class PieChartActivity extends Activity {
                 legend.setXEntrySpace(6f);
                 legend.setYEntrySpace(10f);
                 legend.setYOffset(80f);
-                legend.setXOffset(130f);
+                legend.setXOffset(100f);
                 break;
             default:
         }
@@ -287,9 +287,9 @@ public class PieChartActivity extends Activity {
 
     private void shareResult() {
         Date now = new Date();
-        String dateStr = android.text.format.DateFormat.format("dd-MM-yyyy_HH:mm:ss", now).toString();
+        String dateStr = android.text.format.DateFormat.format("yyyy-MM-dd-HH-mm-ss", now).toString();
 
-        String fileName = dateStr + ".jpg";
+        String fileName = "Screenshot_" + dateStr + ".png";
         Bitmap bitmap = pieChart.getChartBitmap(); // get a quiz result screenshot
 
         Uri uri = Utils.saveImage(this, bitmap, fileName);
@@ -299,7 +299,7 @@ public class PieChartActivity extends Activity {
     private void shareImage(Uri uri) {
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_SEND);
-        intent.setType("image/jpeg");
+        intent.setType("image/png");
         intent.putExtra(Intent.EXTRA_STREAM, uri);
         startActivity(Intent.createChooser(intent, res.getString(R.string.share_result_string)));
     }
@@ -311,7 +311,7 @@ public class PieChartActivity extends Activity {
 
     private void setChartDescription(boolean showDescription) {
         if (showDescription) {
-            pieChart.setDescription(res.getString(R.string.quiz_result_msg));
+            pieChart.setDescription(res.getString(R.string.app_name));
             pieChart.setDescriptionColor(R.color.colorText);
             pieChart.setDescriptionTypeface(tf);
             pieChart.setDescriptionTextSize(16f); // set max description text size
@@ -324,10 +324,10 @@ public class PieChartActivity extends Activity {
             // set description text position depending on screen orientation mode
             switch (res.getConfiguration().orientation) {
                 case Configuration.ORIENTATION_PORTRAIT:
-                    pieChart.setDescriptionPosition(width - (width/20f), height/12f);
+                    pieChart.setDescriptionPosition(width - pieChart.getLegend().getYOffset(), height/12f);
                     break;
                 case Configuration.ORIENTATION_LANDSCAPE:
-                    pieChart.setDescriptionPosition(width - width/5f, height/14f);
+                    pieChart.setDescriptionPosition(pieChart.getLegend().getXOffset(), height/8f);
                     break;
                 default:
             }
