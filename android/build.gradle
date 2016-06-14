@@ -2,13 +2,13 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion '19.1.0'
+    buildToolsVersion '23.0.2'
     defaultConfig {
         applicationId "com.github.ematiyuk.catsquiz"
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 5
-        versionName "3.0"
+        versionCode 6
+        versionName "3.0.1"
     }
     buildTypes {
         release {
